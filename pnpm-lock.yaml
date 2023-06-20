@@ -12,8 +12,8 @@ dependencies:
     specifier: ^8.13.3
     version: 8.13.3(react-dom@18.2.0)(react@18.2.0)(three@0.153.0)
   '@types/audioworklet':
-    specifier: ^0.0.47
-    version: 0.0.47
+    specifier: ^0.0.48
+    version: 0.0.48
   '@types/node':
     specifier: 20.3.1
     version: 20.3.1
@@ -458,8 +458,8 @@ packages:
     resolution: {integrity: sha512-lB9lMjuqjtuJrx7/kOkqQBtllspPIN+96OvTCeJ2j5FEzinoAXTdAMFnDAQT1KVPRlnYfBrqxtqP66vDM40xxQ==}
     dev: false
 
-  /@types/audioworklet@0.0.47:
-    resolution: {integrity: sha512-dgCqGiMyTBVDa91E3jvkAmWZmXIpXcB6/eEPrCmIEsDX/w2v4pc+zlPCz+2Ix7oWS/XP5OUAOPsThBeoX8PMcA==}
+  /@types/audioworklet@0.0.48:
+    resolution: {integrity: sha512-p5XQ+iuQ9fBPch52memypxYsGRiaHXdwoIXoPACGlaEhje5eO6ECiKYs1oEK1oaNyvHyVJElgVRASfSfbMag3g==}
     dev: false
 
   /@types/draco3d@1.4.2:
