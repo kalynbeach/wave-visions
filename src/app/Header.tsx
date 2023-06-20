@@ -9,19 +9,19 @@ export default function Header() {
       <nav className='flex flex-row gap-8 flex-shrink'>
         <Link href='/devices' className='transition hover:text-green-500'>
           <span className='text-sm font-mono'>
-            devices 🎧
+            devices 🎛️
           </span>
         </Link>
-        <Link href='/streams' className='transition hover:text-green-500'>
+        <Link href='/visuals' className='transition hover:text-green-500'>
+          <span className='text-sm font-mono'>
+            visuals 🌌
+          </span>
+        </Link>
+        {/* <Link href='/streams' className='transition hover:text-green-500'>
           <span className='text-sm font-mono'>
             streams 🔊
           </span>
-        </Link>
-        <Link href='/scenes' className='transition hover:text-green-500'>
-          <span className='text-sm font-mono'>
-            scenes 🌌
-          </span>
-        </Link>
+        </Link> */}
       </nav>
     </header>
   )
