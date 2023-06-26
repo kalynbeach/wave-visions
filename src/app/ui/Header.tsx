@@ -17,11 +17,6 @@ export default function Header() {
             🌌 visions
           </span>
         </Link>
-        {/* <Link href='/streams' className='transition hover:text-kb-green'>
-          <span className='text-sm font-mono'>
-            streams 🔊
-          </span>
-        </Link> */}
       </nav>
     </header>
   )

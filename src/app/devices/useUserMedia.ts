@@ -40,23 +40,5 @@ export default function useUserMedia() {
     return () => {}
   }, [])
 
-  useEffect(() => {
-    console.log(`[useUserMedia] volume: ${volume}`)
-  }, [volume])
-
   return volume
-
-  // const [userMedia, setUserMedia] = useState<MediaStream>()
-
-  // useEffect(() => {
-  //   async function fetchUserMedia() {
-  //     const constraints = { audio: true, video: false }
-  //     const stream = await navigator.mediaDevices.getUserMedia(constraints)
-  //     setUserMedia(stream)
-  //   }
-  //   fetchUserMedia()
-  //   return () => {}
-  // }, [])
-
-  // return userMedia
 }
