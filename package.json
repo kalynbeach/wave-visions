@@ -9,8 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@react-three/drei": "^9.77.3",
-    "@react-three/fiber": "^8.13.3",
+    "@react-three/drei": "^9.77.4",
+    "@react-three/fiber": "^8.13.4",
     "@types/audioworklet": "^0.0.48",
     "@types/node": "20.3.1",
     "@types/react": "18.2.14",
