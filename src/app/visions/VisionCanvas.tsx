@@ -1,21 +1,17 @@
 'use client'
 
-import useUserMedia from '@/app/devices/useUserMedia'
-import Canvas from '@/app/ui/Canvas'
-import Box from '@/app/mesh/Box'
+import { useVisions } from '../visions-context'
+import BoxesVision from './BoxesVision'
 
 type Props = {}
 
-export default function VisionCanvas() {
-  const volume = useUserMedia()
+export default function VisionCanvas({}: Props) {
+  const [visionsState] = useVisions()
 
   return (
     <div className='p-4 w-full h-screen border rounded border-neutral-900'>
-      <Canvas>
-        <ambientLight />
-        <pointLight position={[10, 10, 10]} />
-        <Box position={[0, 0, 0]} volume={volume} />
-      </Canvas>
+      { visionsState.selected === 'Boxes' && <BoxesVision /> }
+      {/* TODO: Add other Visions */}
     </div>
   )
 }

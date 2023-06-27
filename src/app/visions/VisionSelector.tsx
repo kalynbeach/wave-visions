@@ -15,15 +15,15 @@ export default function VisionSelector() {
         <span className='text-sm font-bold'>
           Selector
         </span>
-        <code className='p-2 border border-neutral-900 rounded text-sm text-kb-green'>
+        <code className='px-3 py-2 bg-neutral-900 border border-neutral-800 rounded text-sm text-kb-green'>
           { visionsState.selected }
         </code>
       </section>
-      <section className='p-4 flex flex-col gap-4 border border-neutral-900 rounded'>
-        <span className='text-sm font-mono cursor-pointer transition hover:text-kb-green' onClick={() => setSelectedVision('Boxes')}>
+      <section className='p-4 flex flex-row gap-4 border border-neutral-900 rounded'>
+        <span className='p-2 text-sm font-mono cursor-pointer transition hover:text-kb-green border border-neutral-900 rounded' onClick={() => setSelectedVision('Boxes')}>
           Boxes
         </span>
-        <span className='text-sm font-mono cursor-pointer transition hover:text-kb-green' onClick={() => setSelectedVision('Spheres')}>
+        <span className='p-2 text-sm font-mono cursor-pointer transition hover:text-kb-green border border-neutral-900 rounded' onClick={() => setSelectedVision('Spheres')}>
           Spheres
         </span>
       </section>
