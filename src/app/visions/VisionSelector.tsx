@@ -2,6 +2,23 @@
 
 import { useVisions } from '../visions-context'
 
+type VisionSelectorButtonProps = {
+  name: string
+  isSelected: boolean
+  onClick: () => void
+}
+
+function VisionSelectorButton({ name, isSelected, onClick }: VisionSelectorButtonProps) {
+  return (
+    <div 
+      className={`p-2 text-sm font-mono cursor-pointer transition hover:text-kb-green border rounded ${isSelected ? 'text-kb-green bg-neutral-900 border-neutral-800' : 'border-neutral-900'}`}
+      onClick={onClick}  
+    >
+      { name }
+    </div>
+  )
+}
+
 export default function VisionSelector() {
   const [visionsState, setVisionsState] = useVisions()
 
@@ -15,17 +32,11 @@ export default function VisionSelector() {
         <span className='text-sm font-bold'>
           Selector
         </span>
-        <code className='px-3 py-2 bg-neutral-900 border border-neutral-800 rounded text-sm text-kb-green'>
-          { visionsState.selected }
-        </code>
+        
       </section>
-      <section className='p-4 flex flex-row gap-4 border border-neutral-900 rounded'>
-        <span className='p-2 text-sm font-mono cursor-pointer transition hover:text-kb-green border border-neutral-900 rounded' onClick={() => setSelectedVision('Boxes')}>
-          Boxes
-        </span>
-        <span className='p-2 text-sm font-mono cursor-pointer transition hover:text-kb-green border border-neutral-900 rounded' onClick={() => setSelectedVision('Spheres')}>
-          Spheres
-        </span>
+      <section className='flex flex-row gap-4'>
+        <VisionSelectorButton name='Boxes' isSelected={visionsState.selected === 'Boxes'} onClick={() => setSelectedVision('Boxes')} />
+        <VisionSelectorButton name='Spheres' isSelected={visionsState.selected === 'Spheres'} onClick={() => setSelectedVision('Spheres')} />
       </section>
     </div>
   )
