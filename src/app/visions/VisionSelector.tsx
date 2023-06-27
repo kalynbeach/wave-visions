@@ -29,10 +29,7 @@ export default function VisionSelector() {
   return (
     <div className='p-4 basis-1/2 flex flex-col justify-between gap-4 border rounded border-neutral-900'>
       <section className='flex flex-row justify-between items-center'>
-        <span className='text-sm font-bold'>
-          Selector
-        </span>
-        
+        <span className='text-sm font-bold'>Vision Selector</span>
       </section>
       <section className='flex flex-row gap-4'>
         <VisionSelectorButton name='Boxes' isSelected={visionsState.selected === 'Boxes'} onClick={() => setSelectedVision('Boxes')} />
