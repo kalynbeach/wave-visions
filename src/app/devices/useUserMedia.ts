@@ -1,9 +1,10 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
+import { useStream } from '../stream-context'
 
 export default function useUserMedia() {
-  const [volume, setVolume] = useState<number>(0)
+  const [streamState, setStreamState] = useStream()
 
   useEffect(() => {
     async function getAudioStream() {
@@ -29,7 +30,7 @@ export default function useUserMedia() {
       const updateVolume = () => {
         analyser.getByteFrequencyData(dataArray)
         const avgVolume = dataArray.reduce((sum, value) => sum + value, 0) / bufferLength
-        setVolume(avgVolume)
+        setStreamState({ ...streamState, volume: avgVolume})
         requestAnimationFrame(updateVolume)
       }
 
@@ -40,5 +41,5 @@ export default function useUserMedia() {
     return () => {}
   }, [])
 
-  return volume
+  return streamState
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext } from 'react'
+import { createContext, useContext, useState } from 'react'
 
 type StreamState = {
   volume: number
@@ -10,11 +10,14 @@ const initialState: StreamState = {
   volume: 0
 }
 
-export const StreamContext = createContext<StreamState | undefined>(undefined)
+export const StreamContext = createContext<
+  [StreamState, React.Dispatch<React.SetStateAction<StreamState>>] | undefined
+>(undefined)
 
 export function StreamProvider({ children }: { children: React.ReactNode }) {
+  const [streamState, setStreamState] = useState<StreamState>(initialState)
   return (
-    <StreamContext.Provider value={initialState}>
+    <StreamContext.Provider value={[streamState, setStreamState]}>
       {children}
     </StreamContext.Provider>
   )
