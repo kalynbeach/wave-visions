@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext } from 'react'
+import { createContext, useContext, useState } from 'react'
 
 type VisionsState = {
   selected: string
@@ -10,12 +10,14 @@ const initialState: VisionsState = {
   selected: 'Boxes'
 }
 
-export const VisionsContext = createContext<VisionsState | undefined>(undefined)
+export const VisionsContext = createContext<
+  [VisionsState, React.Dispatch<React.SetStateAction<VisionsState>>] | undefined
+>(undefined)
 
 export function VisionsProvider({ children }: { children: React.ReactNode }) {
-  // const [state, setState] = useState<VisionsState>(initialState)
+  const [visionsState, setVisionsState] = useState<VisionsState>(initialState)
   return (
-    <VisionsContext.Provider value={initialState}>
+    <VisionsContext.Provider value={[visionsState, setVisionsState]}>
       {children}
     </VisionsContext.Provider>
   )
