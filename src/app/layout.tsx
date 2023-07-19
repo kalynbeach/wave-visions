@@ -1,7 +1,8 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
-import { StreamProvider } from './stream-context'
-import { VisionsProvider } from './visions-context'
+import { MediaDevicesProvider } from './MediaDevicesContext'
+import { StreamProvider } from './StreamContext'
+import { VisionsProvider } from './VisionsContext'
 import Header from './ui/Header'
 import Footer from './ui/Footer'
 
@@ -20,13 +21,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <StreamProvider>
-          <VisionsProvider>
-            <Header />
-            {children}
-            <Footer />
-          </VisionsProvider>
-        </StreamProvider>
+        <MediaDevicesProvider>
+          <StreamProvider>
+            <VisionsProvider>
+              <Header />
+              {children}
+              <Footer />
+            </VisionsProvider>
+          </StreamProvider>
+        </MediaDevicesProvider>
       </body>
     </html>
   )

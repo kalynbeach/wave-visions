@@ -3,10 +3,12 @@
 import { createContext, useContext, useState } from 'react'
 
 type StreamState = {
+  mediaDevice: MediaDeviceInfo | null
   volume: number
 }
 
 const initialState: StreamState = {
+  mediaDevice: null,
   volume: 0
 }
 

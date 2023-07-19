@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { useStream } from '../stream-context'
+import { useStream } from '../StreamContext'
 
 export default function useUserMedia() {
   const [streamState, setStreamState] = useStream()
@@ -10,6 +10,7 @@ export default function useUserMedia() {
     async function getAudioStream() {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+        console.log(`[getAudioStream] stream: `, stream)
         processAudioStream(stream)
       } catch (err) {
         console.error('[MediaDevices] Error getting audio stream: ', err)
