@@ -26,6 +26,14 @@ yarn dev
 
 ## Notes
 
+### Concepts
+
+- 'Visions' -> live audio visualizers generated from audio/video inputs
+  - Three.js
+    - 3D scenes
+  - ASCII art
+    - Generated scenes
+
 ### Libraries
 
 - [three.js](https://github.com/mrdoob/three.js/)
