@@ -1,42 +1,30 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import MediaDevices from './devices/MediaDevices'
+import StreamInfo from './ui/StreamInfo'
+import VisionSelector from './visions/VisionSelector'
+import VisionCanvas from './visions/VisionCanvas'
 
 export default function Home() {
   return (
-    <main className='min-h-screen p-4 flex flex-col justify-between'>
+    <main className='min-h-screen p-8 flex flex-col gap-4 justify-between'>
 
-      <div className='mb-32 grid lg:mb-0 lg:grid-cols-4 lg:text-left'>
-        <Link
-          href='/devices'
-          className='group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30'
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Devices{' '}
-            <span className='inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none'>
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            🎧 Media devices
-          </p>
-        </Link>
-        
-        <Link
-          href='/visions'
-          className='group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30'
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Visions{' '}
-            <span className='inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none'>
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            🌌 Visions
-          </p>
-        </Link>
+      <h1 className='my-6 text-3xl font-mono font-bold'>wave-visions</h1>
 
-      </div>
+      <section className=''>
+        <div className='flex flex-row justify-between gap-4'>
+          <StreamInfo />
+          <VisionSelector />
+        </div>
+        <div className='my-4 text-lg font-mono font-bold'>VisionCanvas</div>
+        <VisionCanvas />
+      </section>
+
+      <section className=''>
+        <div className='my-4 text-lg font-mono font-bold'>MediaDevices</div>
+        <MediaDevices />
+      </section>
+
     </main>
   )
 }
