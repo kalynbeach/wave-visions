@@ -42,7 +42,7 @@ export function useMediaDevices() {
     }
     fetchMediaDevices()
     return () => {}
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return context
 }

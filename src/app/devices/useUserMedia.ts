@@ -40,7 +40,7 @@ export default function useUserMedia() {
 
     getAudioStream()
     return () => {}
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return streamState
 }
