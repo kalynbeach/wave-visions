@@ -24,9 +24,9 @@ export default function RootLayout({
         <MediaDevicesProvider>
           <StreamProvider>
             <VisionsProvider>
-              <Header />
+              {/* <Header /> */}
               {children}
-              <Footer />
+              {/* <Footer /> */}
             </VisionsProvider>
           </StreamProvider>
         </MediaDevicesProvider>
