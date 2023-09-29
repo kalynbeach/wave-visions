@@ -20,13 +20,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
-      <body className={inter.className}>
+      <body className={`${inter.className} w-screen h-screen p-2`}>
         <MediaDevicesProvider>
           <StreamProvider>
             <VisionsProvider>
-              {/* <Header /> */}
-              {children}
-              {/* <Footer /> */}
+              <div className='w-full h-full flex flex-col gap-2 justify-between'>
+                <Header />
+                {children}
+                {/* <Footer /> */}
+              </div>
             </VisionsProvider>
           </StreamProvider>
         </MediaDevicesProvider>
