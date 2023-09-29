@@ -1,7 +1,7 @@
 'use client'
 
 // import useMediaDevices from './useMediaDevices'
-import { useMediaDevices } from '../MediaDevicesContext'
+import { useMediaDevices } from '../app/MediaDevicesContext'
 // import { useStream } from '../StreamContext'
 
 export default function MediaDevices() {

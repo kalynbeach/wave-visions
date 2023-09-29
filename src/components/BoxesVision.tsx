@@ -1,8 +1,8 @@
 'use client'
 
 import useUserMedia from '@/app/devices/useUserMedia'
-import Canvas from '@/app/ui/Canvas'
-import Box from '@/app/mesh/Box'
+import Canvas from '@/components/Canvas'
+import Box from '@/components/Box'
 
 export default function BoxesVision() {
   const streamState = useUserMedia()

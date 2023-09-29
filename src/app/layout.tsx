@@ -3,8 +3,8 @@ import { Inter } from 'next/font/google'
 import { MediaDevicesProvider } from './MediaDevicesContext'
 import { StreamProvider } from './StreamContext'
 import { VisionsProvider } from './VisionsContext'
-import Header from './ui/Header'
-import Footer from './ui/Footer'
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
 
 const inter = Inter({ subsets: ['latin'] })
 

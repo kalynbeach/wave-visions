@@ -1,7 +1,7 @@
-import MediaDevices from './devices/MediaDevices'
-import StreamInfo from './ui/StreamInfo'
-import VisionSelector from './visions/VisionSelector'
-import VisionCanvas from './visions/VisionCanvas'
+import MediaDevices from '@/components/MediaDevices'
+import StreamInfo from '@/components/StreamInfo'
+import VisionSelector from '@/components/VisionSelector'
+import VisionCanvas from '@/components/VisionCanvas'
 
 export default function Home() {
   return (
@@ -12,7 +12,7 @@ export default function Home() {
       <section className=''>
         <div className='flex flex-row justify-between gap-4'>
           <section className='w-1/2'>
-            <div className='my-4 font-mono font-bold'>VisionCanvas</div>
+            <div className='my-4 font-mono font-bold'>StreamInfo</div>
             <StreamInfo />
           </section>
           <section className='w-1/2'>

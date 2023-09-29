@@ -1,4 +1,4 @@
-import MediaDevices from './MediaDevices'
+import MediaDevices from '@/components/MediaDevices'
 
 export default function Devices() {
   return (
