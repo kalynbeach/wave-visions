@@ -1,4 +1,4 @@
-import './globals.css'
+import '@/styles/globals.css'
 import { Inter } from 'next/font/google'
 import { MediaDevicesProvider } from './MediaDevicesContext'
 import { StreamProvider } from './StreamContext'
@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <body className={inter.className}>
         <MediaDevicesProvider>
           <StreamProvider>
