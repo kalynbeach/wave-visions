@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { useStream } from '../StreamContext'
+import { useStream } from '../stream-context'
 
 export default function useUserMedia() {
   const [streamState, setStreamState] = useStream()

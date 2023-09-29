@@ -1,6 +1,6 @@
 'use client'
 
-import { useVisions } from '../app/VisionsContext'
+import { useVisions } from '../app/visions-context'
 
 type VisionSelectorButtonProps = {
   name: string

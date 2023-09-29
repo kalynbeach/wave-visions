@@ -1,8 +1,8 @@
 import '@/styles/globals.css'
 import { Inter } from 'next/font/google'
-import { MediaDevicesProvider } from './MediaDevicesContext'
-import { StreamProvider } from './StreamContext'
-import { VisionsProvider } from './VisionsContext'
+import { MediaDevicesProvider } from './media-devices-context'
+import { StreamProvider } from './stream-context'
+import { VisionsProvider } from './visions-context'
 import Header from '@/components/header'
 import Footer from '@/components/footer'
 
