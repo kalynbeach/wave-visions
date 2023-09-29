@@ -1,7 +1,7 @@
-import MediaDevices from '@/components/MediaDevices'
-import StreamInfo from '@/components/StreamInfo'
-import VisionSelector from '@/components/VisionSelector'
-import VisionCanvas from '@/components/VisionCanvas'
+import MediaDevices from '@/components/media-devices'
+import StreamInfo from '@/components/stream-info'
+import VisionSelector from '@/components/vision-selector'
+import VisionCanvas from '@/components/vision-canvas'
 
 export default function Home() {
   return (

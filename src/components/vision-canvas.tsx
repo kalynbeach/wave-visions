@@ -1,7 +1,7 @@
 'use client'
 
 import { useVisions } from '@/app/VisionsContext'
-import BoxesVision from './BoxesVision'
+import BoxesVision from './boxes-vision'
 
 type Props = {}
 
