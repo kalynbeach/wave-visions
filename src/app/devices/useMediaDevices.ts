@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useStream } from '../StreamContext'
+import { useStream } from '../stream-context'
 
 export default function useMediaDevices() {
   const [mediaDevices, setMediaDevices] = useState<MediaDeviceInfo[]>()

@@ -1,6 +1,6 @@
-import StreamInfo from '@/components/StreamInfo'
-import VisionSelector from '@/components/VisionSelector'
-import VisionCanvas from '@/components/VisionCanvas'
+import StreamInfo from '@/components/stream-info'
+import VisionSelector from '@/components/vision-selector'
+import VisionCanvas from '@/components/vision-canvas'
 
 export default function Visions() {
   return (

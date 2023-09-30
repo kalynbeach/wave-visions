@@ -1,10 +1,10 @@
-import './globals.css'
+import '@/styles/globals.css'
 import { Inter } from 'next/font/google'
-import { MediaDevicesProvider } from './MediaDevicesContext'
-import { StreamProvider } from './StreamContext'
-import { VisionsProvider } from './VisionsContext'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
+import { MediaDevicesProvider } from './media-devices-context'
+import { StreamProvider } from './stream-context'
+import { VisionsProvider } from './visions-context'
+import Header from '@/components/header'
+import Footer from '@/components/footer'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,14 +19,16 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <html lang="en" className="dark">
+      <body className={`${inter.className} w-screen h-screen p-2`}>
         <MediaDevicesProvider>
           <StreamProvider>
             <VisionsProvider>
-              {/* <Header /> */}
-              {children}
-              {/* <Footer /> */}
+              <div className='w-full h-full flex flex-col gap-2 justify-between'>
+                <Header />
+                {children}
+                {/* <Footer /> */}
+              </div>
             </VisionsProvider>
           </StreamProvider>
         </MediaDevicesProvider>

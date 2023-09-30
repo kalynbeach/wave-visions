@@ -7,10 +7,10 @@ export default function StreamInfo() {
   const roundedVolume = Math.round(streamState.volume)
 
   return (
-    <div className='p-4 basis-1/2 flex flex-col justify-center border rounded border-neutral-900'>
-      {/* <section className='flex flex-row justify-between items-center'>
-        <span className='text-sm font-bold'>Stream Info</span>
-      </section> */}
+    <div className='p-4 basis-1/2 flex flex-col gap-2 justify-center border rounded-sm border-neutral-900'>
+      <section className='flex flex-row justify-between items-center'>
+        <span className='font-mono font-bold'>StreamInfo</span>
+      </section>
       <section className='flex flex-row justify-between items-center'>  
         <span className=''>Volume:</span>
         <span className='text-xl font-bold'>{roundedVolume}</span>
