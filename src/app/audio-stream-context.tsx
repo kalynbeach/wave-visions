@@ -43,28 +43,20 @@ export function useAudioStream() {
   const [audioStream, setAudioStream] = context;
 
   useEffect(() => {
-    async function fetchAudioStream(audioDevice: MediaDeviceInfo | undefined) {
-      console.log(`[useAudioStream fetchAudioStream] Called`);
-      if (audioStream.device !== audioDevice) {
-        setAudioStream({ ...audioStream, device: audioDevice });
-      }
-      if (audioDevice) {
-        try {
-          const stream = await navigator.mediaDevices.getUserMedia({
-            audio: {
-              deviceId: audioDevice.deviceId,
-            },
-          });
-          setAudioStream({ ...audioStream, stream });
-          processAudioStream(stream);
-        } catch (error) {
-          console.error(`[useAudioStream fetchAudioStream] ERROR: `, error);
-        }
+    async function fetchAudioStream(audioDevice: MediaDeviceInfo) {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: {
+            deviceId: audioDevice.deviceId,
+          },
+        });
+        processAudioStream(stream, audioDevice);
+      } catch (error) {
+        console.error(`[useAudioStream fetchAudioStream] ERROR: `, error);
       }
     }
 
-    function processAudioStream(stream: MediaStream) {
-      console.log(`[useAudioStream processAudioStream] Called`);
+    function processAudioStream(stream: MediaStream, audioDevice: MediaDeviceInfo) {
       // Initialize AudioContext nodes
       const audioContext = new AudioContext();
       const source = audioContext.createMediaStreamSource(stream);
@@ -78,16 +70,18 @@ export function useAudioStream() {
       const updateVolume = () => {
         analyser.getByteFrequencyData(dataArray);
         const avgVolume = dataArray.reduce((sum, value) => sum + value, 0) / bufferLength;
-        setAudioStream({ ...audioStream, volume: avgVolume});
+        setAudioStream({ ...audioStream, device: audioDevice, stream, volume: avgVolume});
         requestAnimationFrame(updateVolume);
       };
       updateVolume();
     }
 
-    fetchAudioStream(audioDevice.device);
+    if (audioDevice.device) {
+      fetchAudioStream(audioDevice.device);
+    }
 
     return () => {};
-  }, [audioDevice]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [audioDevice.device]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return context;
 }

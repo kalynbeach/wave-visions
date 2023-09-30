@@ -24,14 +24,10 @@ export default function AudioDeviceSelector() {
       ),
     });
   };
-  
-  // console.log(`[AudioDeviceSelector] mediaDevices: `, mediaDevices);
-  // console.log(`[AudioDeviceSelector] audioDevice: `, audioDevice);
-  // console.log(`[AudioDeviceSelector] audioDevice.device.label: `, audioDevice.device?.label);
 
   return (
     <Select onValueChange={handleDeviceChange} value={audioDevice.device?.label}>
-      <SelectTrigger className="w-[320px]">
+      <SelectTrigger className="w-[256px] ml-auto">
         <SelectValue placeholder="Select an audio device" />
       </SelectTrigger>
       <SelectContent>
