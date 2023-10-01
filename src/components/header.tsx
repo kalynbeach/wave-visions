@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import HeaderMenubar from './header-menubar'
+import AudioDeviceSelector from './audio-device-selector'
 
 export default function Header() {
   return (
@@ -8,6 +9,7 @@ export default function Header() {
         <code>wave-visions</code>
       </Link>
       <HeaderMenubar />
+      <AudioDeviceSelector />
     </header>
   )
 }
