@@ -1,6 +1,6 @@
 'use client'
 
-import { useVisions } from '../app/visions-context'
+import { VisionSelection, useVisions } from '../app/visions-context'
 
 type VisionSelectorButtonProps = {
   name: string
@@ -22,7 +22,7 @@ function VisionSelectorButton({ name, isSelected, onClick }: VisionSelectorButto
 export default function VisionSelector() {
   const [visionsState, setVisionsState] = useVisions()
 
-  const setSelectedVision = (name: string) => {
+  const setSelectedVision = (name: VisionSelection) => {
     setVisionsState({ ...visionsState, selected: name })
   }
 
@@ -32,8 +32,16 @@ export default function VisionSelector() {
         <span className='font-mono font-bold'>VisionCanvas</span>
       </section>
       <section className='flex flex-row gap-4'>
-        <VisionSelectorButton name='Boxes' isSelected={visionsState.selected === 'Boxes'} onClick={() => setSelectedVision('Boxes')} />
-        <VisionSelectorButton name='Spheres' isSelected={visionsState.selected === 'Spheres'} onClick={() => setSelectedVision('Spheres')} />
+        <VisionSelectorButton
+          name={VisionSelection.Boxes}
+          isSelected={visionsState.selected === VisionSelection.Boxes}
+          onClick={() => setSelectedVision(VisionSelection.Boxes)}
+        />
+        <VisionSelectorButton
+          name={VisionSelection.Sphere}
+          isSelected={visionsState.selected === VisionSelection.Sphere}
+          onClick={() => setSelectedVision(VisionSelection.Sphere)}
+        />
       </section>
     </div>
   )

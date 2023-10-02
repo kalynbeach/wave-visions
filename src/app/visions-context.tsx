@@ -2,12 +2,17 @@
 
 import { createContext, useContext, useState } from 'react'
 
+export enum VisionSelection {
+  Boxes = 'Boxes',
+  Sphere = 'Sphere'
+}
+
 type VisionsState = {
-  selected: string
+  selected: VisionSelection
 }
 
 const initialState: VisionsState = {
-  selected: 'Boxes'
+  selected: VisionSelection.Boxes
 }
 
 export const VisionsContext = createContext<

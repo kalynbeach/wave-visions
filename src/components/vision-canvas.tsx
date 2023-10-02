@@ -1,6 +1,6 @@
 'use client'
 
-import { useVisions } from '@/app/visions-context'
+import { VisionSelection, useVisions } from '@/app/visions-context'
 import BoxesVision from './boxes-vision'
 import SphereVision from './sphere-vision'
 
@@ -11,8 +11,8 @@ export default function VisionCanvas({}: Props) {
 
   return (
     <div className='vision-canvas w-full h-full border dark:border-neutral-900 rounded-sm'>
-      {/* { visionsState.selected === 'Boxes' && <BoxesVision /> } */}
-      <SphereVision />
+      { visionsState.selected === VisionSelection.Boxes && <BoxesVision /> }
+      { visionsState.selected === VisionSelection.Sphere && <SphereVision /> }
       {/* TODO: Add other Visions */}
     </div>
   )
