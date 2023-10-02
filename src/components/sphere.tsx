@@ -13,18 +13,18 @@ export default function Sphere(props: Props) {
   const [hovered, hover] = useState(false)
   const [clicked, click] = useState(false)
   
-  const _scale = props.volume ? Math.max(props.volume / 32, 1) : 1
-  const _rotation = props.volume ? props.volume / 73 : 0.03
-  const _rotationX = _rotation * 0.03
+  const _scale = props.volume ? Math.max(props.volume / 70, 1) : 1
+  const _rotation = props.volume ? props.volume / 90 : 0.03
+  const _rotationX = _rotation * 0.001
   const _rotationY = _rotation * 0.03
-  const _rotationZ = _rotation * 0.03
+  const _rotationZ = _rotation * 0.0
 
   useFrame((state, delta) => {
     ref.current.rotation.y += _rotationY
-    if (props.volume && props.volume > 50) {
+    if (props.volume && props.volume > 60) {
       ref.current.rotation.z += _rotationZ
     }
-    if (props.volume && props.volume > 80) {
+    if (props.volume && props.volume > 90) {
       ref.current.rotation.x += _rotationX
     }
 

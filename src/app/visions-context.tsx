@@ -12,7 +12,7 @@ type VisionsState = {
 }
 
 const initialState: VisionsState = {
-  selected: VisionSelection.Boxes
+  selected: VisionSelection.Sphere
 }
 
 export const VisionsContext = createContext<
