@@ -13,9 +13,16 @@ export default function Box(props: Props) {
   const [hovered, hover] = useState(false)
   const [clicked, click] = useState(false)
   
-  const _scale = props.volume ? props.volume / 50 : 0
+  const _scale = props.volume ? props.volume / 64 : 0
+  // const _rotationX = _scale * 0.03
+  // const _rotationY = _scale * 0.01
+  const _rotationZ = _scale * 0.03
 
-  useFrame((state, delta) => (ref.current.rotation.x += 0.01))
+  useFrame((state, delta) => {
+    // ref.current.rotation.x += _rotationX
+    // ref.current.rotation.y += _rotationY
+    ref.current.rotation.z -= _rotationZ
+  })
 
   return (
     <mesh
@@ -26,7 +33,7 @@ export default function Box(props: Props) {
       onPointerOver={(event) => hover(true)}
       onPointerOut={(event) => hover(false)}>
       <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />
+      <meshStandardMaterial color={hovered ? '#11A101' : '#1AE803'} wireframe />
     </mesh>
   )
 }

@@ -11,7 +11,9 @@ export default function BoxesVision() {
     <Canvas>
       <ambientLight />
       <pointLight position={[10, 10, 10]} />
+      <Box position={[-3, 0, -3]} volume={audioStream.volume} />
       <Box position={[0, 0, 0]} volume={audioStream.volume} />
+      <Box position={[3, 0, -3]} volume={audioStream.volume} />
     </Canvas>
   );
 }
