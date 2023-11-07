@@ -27,7 +27,7 @@ export default function AudioDeviceSelector() {
 
   return (
     <Select onValueChange={handleDeviceChange} value={audioDevice.device?.label}>
-      <SelectTrigger className="w-[256px] ml-auto">
+      <SelectTrigger className="md:min-w-[256px] ml-auto">
         <SelectValue placeholder="Select an audio device" />
       </SelectTrigger>
       <SelectContent>

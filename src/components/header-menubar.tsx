@@ -29,7 +29,7 @@ export default function HeaderMenubar() {
       <MenubarMenu>
         <MenubarTrigger>Info</MenubarTrigger>
         <MenubarContent>
-          <MenubarItem inset>Audio {`->`} Computations {`->`} Visuals</MenubarItem>
+          <MenubarItem inset>Audio {`->`} Processing {`->`} Visuals</MenubarItem>
           <MenubarSeparator />
           <MenubarItem inset>🚧 work in progress 🚧</MenubarItem>
           <MenubarSeparator />
@@ -38,26 +38,12 @@ export default function HeaderMenubar() {
           </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
-      <MenubarMenu>
+      {/* <MenubarMenu>
         <MenubarTrigger>Devices</MenubarTrigger>
         <MenubarContent>
           <MenubarCheckboxItem checked>Microphone</MenubarCheckboxItem>
-          {/* <MenubarCheckboxItem checked>
-            Always Show Full URLs
-          </MenubarCheckboxItem>
-          <MenubarSeparator />
-          <MenubarItem inset>
-            Reload <MenubarShortcut>⌘R</MenubarShortcut>
-          </MenubarItem>
-          <MenubarItem disabled inset>
-            Force Reload <MenubarShortcut>⇧⌘R</MenubarShortcut>
-          </MenubarItem>
-          <MenubarSeparator />
-          <MenubarItem inset>Toggle Fullscreen</MenubarItem>
-          <MenubarSeparator />
-          <MenubarItem inset>Hide Sidebar</MenubarItem> */}
         </MenubarContent>
-      </MenubarMenu>
+      </MenubarMenu> */}
       <MenubarMenu>
         <MenubarTrigger>Visions</MenubarTrigger>
         <MenubarContent>
