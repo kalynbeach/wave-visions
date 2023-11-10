@@ -19,8 +19,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className="dark">
-      <body className={`${inter.className} w-screen h-screen p-2`}>
+    <html lang="en">
+      <body className={`${inter.className} dark w-screen h-screen p-2`}>
         <MediaDevicesProvider>
           <AudioDeviceProvider>
             <AudioStreamProvider>

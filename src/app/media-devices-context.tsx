@@ -1,11 +1,11 @@
-'use client'
+"use client";
 
-import { createContext, useContext, useEffect, useState } from 'react';
-import { useAudioDevice } from './audio-device-context';
+import { createContext, useContext, useEffect, useState } from "react";
+import { useAudioDevice } from "./audio-device-context";
 
 
-const DEFAULT_AUDIO_DEVICE_LABEL = "Music Audio";
-const BACKUP_AUDIO_DEVICE_LABEL = "MacBook Pro Microphone";
+const DEFAULT_AUDIO_DEVICE_LABEL = "Music Audio (Virtual)";
+const FALLBACK_AUDIO_DEVICE_LABEL = "MacBook Pro Microphone (Built-in)";
 
 
 export type MediaDevicesState = {
@@ -36,7 +36,7 @@ export function MediaDevicesProvider({ children }: { children: React.ReactNode }
 export function useMediaDevices() {
   const context = useContext(MediaDevicesContext);
   if (context === undefined) {
-    throw new Error('useMediaDevices must be used within a MediaDevicesProvider');
+    throw new Error("useMediaDevices must be used within a MediaDevicesProvider");
   }
 
   const [mediaDevices, setMediaDevices] = context;
@@ -48,7 +48,8 @@ export function useMediaDevices() {
         // Get user permission to access media device labels
         await navigator.mediaDevices.getUserMedia({ audio: true });
         const devices = await navigator.mediaDevices.enumerateDevices();
-        setMediaDevices({ ...mediaDevices, devices });  
+        setMediaDevices({ ...mediaDevices, devices });
+        console.log(`[fetchMediaDevices] devices: `, devices);
       } catch (error) {
         console.error(`[fetchMediaDevices] ERROR: `, error);
       }
@@ -63,7 +64,7 @@ export function useMediaDevices() {
     const defaultDevice = mediaDevices.devices.find(
       (device) => device.label === DEFAULT_AUDIO_DEVICE_LABEL
     ) || mediaDevices.devices.find(
-      (device) => device.label === BACKUP_AUDIO_DEVICE_LABEL
+      (device) => device.label === FALLBACK_AUDIO_DEVICE_LABEL
     ) || mediaDevices.devices[0];
     setAudioDevice({ ...audioDevice, device: defaultDevice });
     console.log(`[useMediaDevices] audioDevice: `, audioDevice);
