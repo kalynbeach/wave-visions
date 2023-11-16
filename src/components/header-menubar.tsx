@@ -1,6 +1,8 @@
-"use client"
+"use client";
 
-import { VisionSelection, useVisions } from "@/app/visions-context"
+import { useMediaDevices } from "@/app/media-devices-context";
+import { useAudioDevice } from "@/app/audio-device-context";
+import { VisionSelection, useVisions } from "@/app/visions-context";
 import {
   Menubar,
   MenubarCheckboxItem,
@@ -15,35 +17,55 @@ import {
   MenubarSubContent,
   MenubarSubTrigger,
   MenubarTrigger,
-} from "@/components/ui/menubar"
+} from "@/components/ui/menubar";
 
 export default function HeaderMenubar() {
-  const [visionsState, setVisionsState] = useVisions()
+  const [mediaDevices] = useMediaDevices();
+  const [audioDevice, setAudioDevice] = useAudioDevice();
+  const [visionsState, setVisionsState] = useVisions();
+
+  const handleDeviceChange = (value: string) => {
+    setAudioDevice({
+      ...audioDevice,
+      device: mediaDevices.devices.find(
+        (device) => device.label === value
+      ),
+    });
+  };
 
   const handleVisionChange = (value: string) => {
-    setVisionsState({ ...visionsState, selected: value as VisionSelection })
-  }
+    setVisionsState({ ...visionsState, selected: value as VisionSelection });
+  };
 
   return (
     <Menubar>
       <MenubarMenu>
         <MenubarTrigger>Info</MenubarTrigger>
         <MenubarContent>
-          <MenubarItem inset>Audio {`->`} Processing {`->`} Visuals</MenubarItem>
+          <MenubarItem>Audio {`->`} Processing {`->`} Visuals</MenubarItem>
           <MenubarSeparator />
-          <MenubarItem inset>🚧 work in progress 🚧</MenubarItem>
-          <MenubarSeparator />
-          <MenubarItem disabled inset>
+          <MenubarItem disabled>
             Made by @kalynbeach
           </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
-      {/* <MenubarMenu>
+      <MenubarMenu>
         <MenubarTrigger>Devices</MenubarTrigger>
         <MenubarContent>
-          <MenubarCheckboxItem checked>Microphone</MenubarCheckboxItem>
+          <MenubarItem disabled className="font-medium">
+            Audio Devices
+          </MenubarItem>
+          {/* <MenubarSeparator /> */}
+          <MenubarRadioGroup value={audioDevice.device?.label} onValueChange={handleDeviceChange}>
+            {mediaDevices.devices.filter((device) => device.kind === "audioinput").map(device => (
+              <MenubarRadioItem key={device.label} value={device.label}>
+                {device.label || 'Unknown Device'}
+              </MenubarRadioItem>
+            ))}
+          </MenubarRadioGroup>
+          {/* <MenubarCheckboxItem checked>Microphone</MenubarCheckboxItem> */}
         </MenubarContent>
-      </MenubarMenu> */}
+      </MenubarMenu>
       <MenubarMenu>
         <MenubarTrigger>Visions</MenubarTrigger>
         <MenubarContent>
@@ -53,10 +75,7 @@ export default function HeaderMenubar() {
                 {vision}
               </MenubarRadioItem>
             ))}
-            {/* <MenubarRadioItem value={VisionSelection.Boxes}>Boxes</MenubarRadioItem>
-            <MenubarRadioItem value={VisionSelection.Sphere}>Sphere</MenubarRadioItem> */}
           </MenubarRadioGroup>
-          {/* <MenubarSeparator /> */}
         </MenubarContent>
       </MenubarMenu>
     </Menubar>
