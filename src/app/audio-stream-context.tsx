@@ -6,18 +6,16 @@ import { AudioProcessor } from "@/lib/audio";
 
 
 type AudioStreamState = {
+  context: AudioContext | undefined;
   device: MediaDeviceInfo | undefined;
   stream: MediaStream | undefined;
-  volume: number;
-  waveform: Float32Array | null;
 };
 
 
 const initialState: AudioStreamState = {
+  context: undefined,
   device: undefined,
   stream: undefined,
-  volume: 0,
-  waveform: null,
 };
 
 
@@ -47,33 +45,39 @@ export function useAudioStream() {
   // TODO: Figure out if this is more performant as state
   // const [audioProcessor, setAudioProcessor] = useState<AudioProcessor | null>(null);
 
+  // Fetch audio stream when audio device is set
   useEffect(() => {
-    async function fetchAudioStream(audioDevice: MediaDeviceInfo) {
+    async function fetchAudioStream(device: MediaDeviceInfo) {
+      console.log(`[useAudioStream fetchAudioStream] called`);
       try {
         const stream = await navigator.mediaDevices.getUserMedia({
           audio: {
-            deviceId: audioDevice.deviceId,
+            deviceId: device.deviceId,
           },
         });
+        const context = new AudioContext();
+        setAudioStream({ ...audioStream, context, device, stream });
         // processAudioStream(stream, audioDevice);
-        process(stream, audioDevice);
+        // process(stream, audioDevice);
       } catch (error) {
         console.error(`[useAudioStream fetchAudioStream] ERROR: `, error);
       }
     }
 
-    function process(stream: MediaStream, device: MediaDeviceInfo) {
-      const processor = new AudioProcessor();
-      const update = () => {
-        const amplitudeData = processor.getAmplitudeData(stream);
-        const waveformData = processor.getWaveformData(stream);
-        const volume = amplitudeData.reduce((sum, value) => sum + value, 0) / amplitudeData.length;
-        const waveform = waveformData;
-        setAudioStream({ ...audioStream, device, volume, waveform });
-        requestAnimationFrame(update);
-      };
-      update();
-    }
+    // function process(stream: MediaStream, device: MediaDeviceInfo) {
+    //   console.log(`[useAudioStream process] called`);
+    //   const processor = new AudioProcessor();
+    //   const update = () => {
+    //     console.log(`[useAudioStream update] called`);
+    //     const amplitudeData = processor.getAmplitudeData(stream);
+    //     const waveformData = processor.getWaveformData(stream);
+    //     const volume = amplitudeData.reduce((sum, value) => sum + value, 0) / amplitudeData.length;
+    //     const waveform = waveformData;
+    //     setAudioStream({ ...audioStream, device, volume, waveform });
+    //     requestAnimationFrame(update);
+    //   };
+    //   update();
+    // }
 
     // function processAudioStream(stream: MediaStream, audioDevice: MediaDeviceInfo) {
     //   // Initialize AudioContext nodes

@@ -4,7 +4,8 @@ import { createContext, useContext, useState } from 'react'
 
 export enum VisionSelection {
   Boxes = 'Boxes',
-  Sphere = 'Sphere'
+  Sphere = 'Sphere',
+  Oscilloscope = 'Oscilloscope',
 }
 
 type VisionsState = {
