@@ -1,6 +1,5 @@
 import type { AudioSpectrum } from '@/lib/definitions';
 
-
 export const audioSpectrum: AudioSpectrum = {
   subBass: {lower: 20, upper: 60 },
   bass: { lower: 60, upper: 250 },
@@ -15,35 +14,25 @@ export const audioSpectrum: AudioSpectrum = {
  * Web Audio API `MediaStreamAudioSourceNode` audio processor
  */
 export class AudioProcessor {
+  audioContext: AudioContext;
   stream: MediaStream;
-  private audioContext: AudioContext;
+  source: MediaStreamAudioSourceNode;
   private amplitudeAnalyser: AnalyserNode;
   private waveformAnalyser: AnalyserNode;
   private amplitudeDataArray: Uint8Array | null = null;
   private waveformDataArray: Float32Array | null = null;
 
   constructor(context: AudioContext, stream: MediaStream) {
+    this.audioContext = context;
     this.stream = stream;
-    // Set up AudioContext
-    this.audioContext = context
-    // Set up AnalyserNodes
+    this.source = this.audioContext.createMediaStreamSource(stream);
     this.amplitudeAnalyser = this.audioContext.createAnalyser();
     this.waveformAnalyser = this.audioContext.createAnalyser();
     this.amplitudeAnalyser.fftSize = 32;
     this.waveformAnalyser.fftSize = 2048;
-    // const source = this.audioContext.createMediaStreamSource(stream);
-    // source.connect(this.waveformAnalyser);
+    this.source.connect(this.amplitudeAnalyser);
+    this.source.connect(this.waveformAnalyser);
     console.log(`[AudioProcessor] initialized`);
-  }
-
-  getAmplitudeData(): Uint8Array {
-    console.log(`[AudioProcessor getAmplitudeData] called`);
-    const source = this.audioContext.createMediaStreamSource(this.stream);
-    source.connect(this.amplitudeAnalyser);
-    const bufferLength = this.amplitudeAnalyser.frequencyBinCount;
-    this.amplitudeDataArray = new Uint8Array(bufferLength);
-    this.amplitudeAnalyser.getByteFrequencyData(this.amplitudeDataArray);
-    return this.amplitudeDataArray;
   }
 
   getVolume(): number {
@@ -52,10 +41,15 @@ export class AudioProcessor {
     return volume;
   }
 
+  getAmplitudeData(): Uint8Array {
+    console.log(`[AudioProcessor getAmplitudeData] called`);
+    this.amplitudeDataArray = new Uint8Array(this.amplitudeAnalyser.frequencyBinCount);
+    this.amplitudeAnalyser.getByteFrequencyData(this.amplitudeDataArray);
+    return this.amplitudeDataArray;
+  }
+
   getWaveformData(): Float32Array {
     console.log(`[AudioProcessor getWaveformData] called`);
-    const source = this.audioContext.createMediaStreamSource(this.stream);
-    source.connect(this.waveformAnalyser);
     this.waveformDataArray = new Float32Array(this.waveformAnalyser.frequencyBinCount);
     this.waveformAnalyser.getFloatTimeDomainData(this.waveformDataArray);
     return this.waveformDataArray;

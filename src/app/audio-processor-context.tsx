@@ -31,6 +31,9 @@ export function AudioProcessorProvider({ children }: { children: React.ReactNode
   );
 }
 
+/**
+ * `AudioProcessor` Hook
+ */
 export function useAudioProcessor() {
   const context = useContext(AudioProcessorContext);
   if (context === undefined) {
@@ -42,11 +45,15 @@ export function useAudioProcessor() {
 
   // Create audio processor when audio stream is set
   useEffect(() => {
+    let isMounted = true;
+
     async function createAudioProcessor(context: AudioContext, stream: MediaStream) {
       console.log(`[useAudioProcessor createAudioProcessor] called`);
       try {
-        const processor = new AudioProcessor(context, stream);
-        setAudioProcessor({ ...audioProcessor, processor });
+        if (isMounted) {
+          const processor = new AudioProcessor(context, stream);
+          setAudioProcessor({ ...audioProcessor, processor });
+        }
       } catch (error) {
         console.error(`[useAudioProcessor createAudioProcessor] error: ${error}`);
       }
@@ -56,25 +63,38 @@ export function useAudioProcessor() {
       createAudioProcessor(audioStream.context, audioStream.stream);
     }
 
-    return () => {};
+    // Cleanup function to handle component unmounting
+    return () => {
+      isMounted = false;
+    };
   }, [audioStream.context, audioStream.stream]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Process audio stream amplitude data
   useEffect(() => {
-    const updateVolume = () => {
-      if (audioProcessor.processor) {
-        const volume = audioProcessor.processor.getVolume();
+    let animationFrameId: number;
+  
+    function processVolume(processor: AudioProcessor) {
+      const updateVolume = () => {
+        const volume = processor.getVolume();
         setAudioProcessor({ ...audioProcessor, volume });
-        requestAnimationFrame(updateVolume);
+        animationFrameId = requestAnimationFrame(updateVolume);
       }
+      updateVolume();
     }
 
-    updateVolume();
+    if (audioProcessor.processor) {
+      processVolume(audioProcessor.processor);
+    }
 
-    return () => {};
-  }, [audioProcessor]);
+    // Cleanup function to cancel the animation frame loop
+    return () => {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+    };
+  }, [audioProcessor.processor]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Process audio stream waveform data
+  // TODO: Process audio stream waveform data
 
   return [audioProcessor, setAudioProcessor] as const;
 }
