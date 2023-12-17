@@ -17,6 +17,7 @@ export class AudioProcessor {
   audioContext: AudioContext;
   stream: MediaStream;
   source: MediaStreamAudioSourceNode;
+  volume: number = 0;
   private amplitudeAnalyser: AnalyserNode;
   private waveformAnalyser: AnalyserNode;
   private amplitudeDataArray: Uint8Array | null = null;
@@ -37,19 +38,18 @@ export class AudioProcessor {
 
   getVolume(): number {
     const amplitudeData = this.getAmplitudeData();
-    const volume = amplitudeData.reduce((acc, cur) => acc + cur, 0) / amplitudeData.length;
-    return volume;
+    this.volume = amplitudeData.reduce((acc, cur) => acc + cur, 0) / amplitudeData.length;
+    console.log(`[AudioProcessor getVolume] ${this.volume}`);
+    return this.volume;
   }
 
   getAmplitudeData(): Uint8Array {
-    console.log(`[AudioProcessor getAmplitudeData] called`);
     this.amplitudeDataArray = new Uint8Array(this.amplitudeAnalyser.frequencyBinCount);
     this.amplitudeAnalyser.getByteFrequencyData(this.amplitudeDataArray);
     return this.amplitudeDataArray;
   }
 
   getWaveformData(): Float32Array {
-    console.log(`[AudioProcessor getWaveformData] called`);
     this.waveformDataArray = new Float32Array(this.waveformAnalyser.frequencyBinCount);
     this.waveformAnalyser.getFloatTimeDomainData(this.waveformDataArray);
     return this.waveformDataArray;

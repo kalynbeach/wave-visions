@@ -36,6 +36,7 @@ export function AudioProcessorProvider({ children }: { children: React.ReactNode
  */
 export function useAudioProcessor() {
   const context = useContext(AudioProcessorContext);
+
   if (context === undefined) {
     throw new Error("useAudioProcessor must be used within a AudioProcessorProvider");
   }
@@ -52,7 +53,7 @@ export function useAudioProcessor() {
       try {
         if (isMounted) {
           const processor = new AudioProcessor(context, stream);
-          setAudioProcessor({ ...audioProcessor, processor });
+          setAudioProcessor(prevState => ({ ...prevState, processor }));
         }
       } catch (error) {
         console.error(`[useAudioProcessor createAudioProcessor] error: ${error}`);
@@ -75,8 +76,11 @@ export function useAudioProcessor() {
   
     function processVolume(processor: AudioProcessor) {
       const updateVolume = () => {
+        const prevVolume = audioProcessor.volume;
         const volume = processor.getVolume();
-        setAudioProcessor({ ...audioProcessor, volume });
+        if (prevVolume !== volume) {
+          setAudioProcessor(prevState => ({ ...prevState, volume }));
+        }
         animationFrameId = requestAnimationFrame(updateVolume);
       }
       updateVolume();
