@@ -1,4 +1,8 @@
-import { type AudioFrequencies, AUDIBLE_SPECTRUM } from '@/lib/definitions';
+import {
+  type AudioFrequencies,
+  type FrequencyBand,
+  AUDIBLE_SPECTRUM
+} from '@/lib/definitions';
 
 /**
  * Web Audio API `MediaStreamAudioSourceNode` audio processor
@@ -7,12 +11,12 @@ export class AudioProcessor {
   audioContext: AudioContext;
   stream: MediaStream;
   source: MediaStreamAudioSourceNode;
+  volume: number;
+  frequencies: AudioFrequencies;
   private amplitudeAnalyser: AnalyserNode;
   private waveformAnalyser: AnalyserNode;
   private amplitudeDataArray: Uint8Array | null = null;
   private waveformDataArray: Float32Array | null = null;
-  volume: number;
-  frequencies: AudioFrequencies;
 
   constructor(context: AudioContext, stream: MediaStream) {
     this.audioContext = context;
@@ -46,7 +50,6 @@ export class AudioProcessor {
   getVolume(): number {
     const amplitudeData = this.getAmplitudeData();
     this.volume = amplitudeData.reduce((acc, cur) => acc + cur, 0) / amplitudeData.length;
-    console.log(`[AudioProcessor getVolume] ${this.volume}`);
     return this.volume;
   }
 
@@ -57,20 +60,30 @@ export class AudioProcessor {
   }
 
   getFrequencies(): AudioFrequencies {
-    const waveformData = this.getWaveformData();
-
-    // TODO: Get frequency band number values from waveformData
-
+    const frequencyDataArray = new Uint8Array(this.waveformAnalyser.frequencyBinCount);
+    this.waveformAnalyser.getByteFrequencyData(frequencyDataArray);
     this.frequencies = {
-      subBass: 0,
-      bass: 0,
-      lowMidrange: 0,
-      midrange: 0,
-      upperMidrange: 0,
-      presence: 0,
-      brilliance: 0,
+      subBass: this.calculateLevel(AUDIBLE_SPECTRUM.subBass, frequencyDataArray),
+      bass: this.calculateLevel(AUDIBLE_SPECTRUM.bass, frequencyDataArray),
+      lowMidrange: this.calculateLevel(AUDIBLE_SPECTRUM.lowMidrange, frequencyDataArray),
+      midrange: this.calculateLevel(AUDIBLE_SPECTRUM.midrange, frequencyDataArray),
+      upperMidrange: this.calculateLevel(AUDIBLE_SPECTRUM.upperMidrange, frequencyDataArray),
+      presence: this.calculateLevel(AUDIBLE_SPECTRUM.presence, frequencyDataArray),
+      brilliance: this.calculateLevel(AUDIBLE_SPECTRUM.brilliance, frequencyDataArray),
     };
-
     return this.frequencies;
+  }
+
+  private calculateLevel(frequencyBand: FrequencyBand, frequencyDataArray: Uint8Array): number {
+    // Convert frequency band bounds from Hz to indices in the frequency data array
+    const lowerIndex = Math.round(frequencyBand.lower * this.waveformAnalyser.frequencyBinCount / this.audioContext.sampleRate);
+    const upperIndex = Math.round(frequencyBand.upper * this.waveformAnalyser.frequencyBinCount / this.audioContext.sampleRate);
+    // Calculate the average of the frequency data within the frequency band
+    let sum = 0;
+    for (let i = lowerIndex; i <= upperIndex; i++) {
+      sum += frequencyDataArray[i];
+    }
+    const average = sum / (upperIndex - lowerIndex + 1);
+    return average;
   }
 }

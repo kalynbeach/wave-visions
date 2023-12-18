@@ -3,19 +3,22 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useAudioStream } from "./audio-stream-context";
 import { AudioProcessor } from "@/lib/audio";
+import type { AudioFrequencies } from "@/lib/definitions";
 
 type AudioProcessorState = {
   processor: AudioProcessor | null;
+  frequencies: AudioFrequencies | null;
   volume: number;
-  amplitude: Uint8Array | null;
   waveform: Float32Array | null;
+  // amplitude: Uint8Array | null;
 };
 
 const initialState: AudioProcessorState = {
   processor: null,
+  frequencies: null,
   volume: 0,
-  amplitude: null,
   waveform: null,
+  // amplitude: null,
 };
 
 export const AudioProcessorContext = createContext<
@@ -64,11 +67,34 @@ export function useAudioProcessor() {
       createAudioProcessor(audioStream.context, audioStream.stream);
     }
 
-    // Cleanup function to handle component unmounting
     return () => {
       isMounted = false;
     };
   }, [audioStream.context, audioStream.stream]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Process audio stream frequency data
+  useEffect(() => {
+    let animationFrameId: number;
+
+    function processFrequencies(processor: AudioProcessor) {
+      const updateFrequencies = () => {
+        const frequencies = processor.getFrequencies();
+        setAudioProcessor(prevState => ({ ...prevState, frequencies }));
+        animationFrameId = requestAnimationFrame(updateFrequencies);
+      }
+      updateFrequencies();
+    }
+
+    if (audioProcessor.processor) {
+      processFrequencies(audioProcessor.processor);
+    }
+
+    return () => {
+      if (animationFrameId) {
+          cancelAnimationFrame(animationFrameId);
+      }
+    };
+  }, [audioProcessor.processor]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Process audio stream amplitude data
   useEffect(() => {
@@ -90,7 +116,6 @@ export function useAudioProcessor() {
       processVolume(audioProcessor.processor);
     }
 
-    // Cleanup function to cancel the animation frame loop
     return () => {
       if (animationFrameId) {
         cancelAnimationFrame(animationFrameId);
@@ -98,7 +123,29 @@ export function useAudioProcessor() {
     };
   }, [audioProcessor.processor]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // TODO: Process audio stream waveform data
+  // Process audio stream waveform data
+  // useEffect(() => {
+  //   let animationFrameId: number;
+  
+  //   function processWaveform(processor: AudioProcessor) {
+  //     const updateWaveform = () => {
+  //       const waveform = processor.getWaveformData();
+  //       setAudioProcessor(prevState => ({ ...prevState, waveform }));
+  //       animationFrameId = requestAnimationFrame(updateWaveform);
+  //     }
+  //     updateWaveform();
+  //   }
+  
+  //   if (audioProcessor.processor) {
+  //     processWaveform(audioProcessor.processor);
+  //   }
+
+  //   return () => {
+  //     if (animationFrameId) {
+  //       cancelAnimationFrame(animationFrameId);
+  //     }
+  //   };
+  // }, [audioProcessor.processor]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return [audioProcessor, setAudioProcessor] as const;
 }
