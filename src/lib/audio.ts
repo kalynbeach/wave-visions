@@ -1,14 +1,4 @@
-import type { AudioSpectrum } from '@/lib/definitions';
-
-export const audioSpectrum: AudioSpectrum = {
-  subBass: {lower: 20, upper: 60 },
-  bass: { lower: 60, upper: 250 },
-  lowMidrange: { lower: 250, upper: 500 },
-  midrange: { lower: 500, upper: 2000 },
-  upperMidrange: { lower: 2000, upper: 4000 },
-  presence: { lower: 4000, upper: 6000 },
-  brilliance: { lower: 6000, upper: 20000 },
-};
+import { type AudioFrequencies, AUDIBLE_SPECTRUM } from '@/lib/definitions';
 
 /**
  * Web Audio API `MediaStreamAudioSourceNode` audio processor
@@ -17,11 +7,12 @@ export class AudioProcessor {
   audioContext: AudioContext;
   stream: MediaStream;
   source: MediaStreamAudioSourceNode;
-  volume: number = 0;
   private amplitudeAnalyser: AnalyserNode;
   private waveformAnalyser: AnalyserNode;
   private amplitudeDataArray: Uint8Array | null = null;
   private waveformDataArray: Float32Array | null = null;
+  volume: number;
+  frequencies: AudioFrequencies;
 
   constructor(context: AudioContext, stream: MediaStream) {
     this.audioContext = context;
@@ -33,7 +24,23 @@ export class AudioProcessor {
     this.waveformAnalyser.fftSize = 2048;
     this.source.connect(this.amplitudeAnalyser);
     this.source.connect(this.waveformAnalyser);
+    this.volume = 0;
+    this.frequencies = {
+      subBass: 0,
+      bass: 0,
+      lowMidrange: 0,
+      midrange: 0,
+      upperMidrange: 0,
+      presence: 0,
+      brilliance: 0,
+    };
     console.log(`[AudioProcessor] initialized`);
+  }
+
+  getAmplitudeData(): Uint8Array {
+    this.amplitudeDataArray = new Uint8Array(this.amplitudeAnalyser.frequencyBinCount);
+    this.amplitudeAnalyser.getByteFrequencyData(this.amplitudeDataArray);
+    return this.amplitudeDataArray;
   }
 
   getVolume(): number {
@@ -43,15 +50,27 @@ export class AudioProcessor {
     return this.volume;
   }
 
-  getAmplitudeData(): Uint8Array {
-    this.amplitudeDataArray = new Uint8Array(this.amplitudeAnalyser.frequencyBinCount);
-    this.amplitudeAnalyser.getByteFrequencyData(this.amplitudeDataArray);
-    return this.amplitudeDataArray;
-  }
-
   getWaveformData(): Float32Array {
     this.waveformDataArray = new Float32Array(this.waveformAnalyser.frequencyBinCount);
     this.waveformAnalyser.getFloatTimeDomainData(this.waveformDataArray);
     return this.waveformDataArray;
+  }
+
+  getFrequencies(): AudioFrequencies {
+    const waveformData = this.getWaveformData();
+
+    // TODO: Get frequency band number values from waveformData
+
+    this.frequencies = {
+      subBass: 0,
+      bass: 0,
+      lowMidrange: 0,
+      midrange: 0,
+      upperMidrange: 0,
+      presence: 0,
+      brilliance: 0,
+    };
+
+    return this.frequencies;
   }
 }
