@@ -13,9 +13,9 @@ export default function AudioProcessor() {
   }
 
   return (
-    <div className="audio-processor p-4 flex flex-col gap-4 border rounded-sm">
-      <span className="font-semibold">Audio Processor</span>
-      <div className="w-96 flex flex-col justify-between gap-4">
+    <div className="audio-processor z-50 md:w-96 m-2 mt-auto p-4 flex flex-col gap-4 bg-background border rounded-sm">
+      <span className="font-mono font-semibold">AudioProcessor</span>
+      <div className="w-full flex flex-col justify-between gap-3">
         <div className="flex flex-row justify-between gap-2">
           <p className="font-mono text-xs">Volume</p>
           <p className="font-mono text-sm">{audioVolume}</p>

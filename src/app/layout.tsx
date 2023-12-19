@@ -34,10 +34,12 @@ export default function RootLayout({
                   <AudioWaveformProvider>
                     <VisionsProvider>
                       <body className={`${inter.className} dark w-screen h-screen p-2`}>
-                        <div className="w-full h-full flex flex-col gap-2 justify-between">
+                        <div className="relative w-full h-full flex flex-col">
                           <Header />
-                          {/* <AudioProcessor /> */}
-                          {children}
+                          <AudioProcessor />
+                          <main className="absolute w-full h-full">
+                            {children}
+                          </main>
                         </div>
                       </body>
                     </VisionsProvider>
