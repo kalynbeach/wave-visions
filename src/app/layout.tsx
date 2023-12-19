@@ -4,6 +4,9 @@ import { MediaDevicesProvider } from "./media-devices-context";
 import { AudioDeviceProvider } from "./audio-device-context";
 import { AudioStreamProvider } from "./audio-stream-context";
 import { AudioProcessorProvider } from "./audio-processor-context";
+import { AudioVolumeProvider } from "./audio-volume-context";
+import { AudioFrequenciesProvider } from "./audio-frequencies-context";
+import { AudioWaveformProvider } from "./audio-waveform-context";
 import { VisionsProvider } from "./visions-context";
 import Header from "@/components/header";
 import AudioProcessor from "@/components/audio-processor";
@@ -22,23 +25,29 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-        <MediaDevicesProvider>
-          <AudioDeviceProvider>
-            <AudioStreamProvider>
-              <AudioProcessorProvider>
-                <VisionsProvider>
-                  <body className={`${inter.className} dark w-screen h-screen p-2`}>
-                    <div className="w-full h-full flex flex-col gap-2 justify-between">
-                      <Header />
-                      <AudioProcessor />
-                      {children}
-                    </div>
-                  </body>
-                </VisionsProvider>
-              </AudioProcessorProvider>
-            </AudioStreamProvider>
-          </AudioDeviceProvider>
-        </MediaDevicesProvider>
+      <MediaDevicesProvider>
+        <AudioDeviceProvider>
+          <AudioStreamProvider>
+            <AudioProcessorProvider>
+              <AudioVolumeProvider>
+                <AudioFrequenciesProvider>
+                  <AudioWaveformProvider>
+                    <VisionsProvider>
+                      <body className={`${inter.className} dark w-screen h-screen p-2`}>
+                        <div className="w-full h-full flex flex-col gap-2 justify-between">
+                          <Header />
+                          {/* <AudioProcessor /> */}
+                          {children}
+                        </div>
+                      </body>
+                    </VisionsProvider>
+                  </AudioWaveformProvider>
+                </AudioFrequenciesProvider>
+              </AudioVolumeProvider>
+            </AudioProcessorProvider>
+          </AudioStreamProvider>
+        </AudioDeviceProvider>
+      </MediaDevicesProvider>
     </html>
   );
 }
