@@ -1,11 +1,13 @@
 "use client";
 
+import { useAudioProcessor } from "@/app/audio-processor-context";
 import { useAudioVolume } from "@/app/audio-volume-context";
 import Canvas from "@/components/canvas";
 import Box from "@/components/box";
 
 export default function BoxesVision() {
-  const [audioVolume] = useAudioVolume();
+  const [audioProcessor] = useAudioProcessor();
+  const [audioVolume] = useAudioVolume(audioProcessor);
 
   return (
     <Canvas>

@@ -39,9 +39,9 @@ export function useAudioProcessor() {
     let isMounted = true;
 
     async function createAudioProcessor(context: AudioContext, stream: MediaStream) {
-      console.log(`[useAudioProcessor createAudioProcessor] called`);
       try {
-        if (isMounted) {
+        if (isMounted && !audioProcessor) {
+          console.log(`[useAudioProcessor createAudioProcessor] Creating AudioProcessor instance`);
           const processor = new AudioProcessor(context, stream);
           setAudioProcessor(prevState => processor);
         }

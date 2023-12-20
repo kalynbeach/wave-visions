@@ -1,20 +1,17 @@
 "use client";
 
 import { useState } from "react";
+import { useAudioProcessor } from "@/app/audio-processor-context";
 import { useAudioVolume } from "@/app/audio-volume-context";
 import { useAudioFrequencies } from "@/app/audio-frequencies-context";
 import { Button } from "@/components/ui/button";
 import { MinusIcon, PlusIcon } from "@radix-ui/react-icons";
-import { cn } from "@/lib/utils";
 
 export default function AudioProcessor() {
-  const [audioVolume] = useAudioVolume();
-  const [audioFrequencies] = useAudioFrequencies();
+  const [audioProcessor] = useAudioProcessor();
+  const [audioVolume] = useAudioVolume(audioProcessor);
+  const [audioFrequencies] = useAudioFrequencies(audioProcessor);
   const [isMinimized, setIsMinimized] = useState(false);
-
-  if (!audioVolume || !audioFrequencies) {
-    return null;
-  }
 
   function toggleMinimize() {
     setIsMinimized(!isMinimized);

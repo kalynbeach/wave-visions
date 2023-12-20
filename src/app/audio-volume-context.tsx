@@ -1,7 +1,6 @@
 "use client";
 
 import { createContext, useContext, useCallback, useEffect, useState } from "react";
-import { useAudioProcessor } from "./audio-processor-context";
 import type { AudioProcessor } from "@/lib/audio";
 
 type AudioVolumeState = number;
@@ -21,14 +20,13 @@ export function AudioVolumeProvider({ children }: { children: React.ReactNode })
   );
 }
 
-export function useAudioVolume() {
+export function useAudioVolume(audioProcessor: AudioProcessor | null) {
   const context = useContext(AudioVolumeContext);
 
   if (context === undefined) {
     throw new Error("useAudioVolume must be used within a AudioVolumeProvider");
   }
 
-  const [audioProcessor] = useAudioProcessor();
   const [audioVolume, setAudioVolume] = context;
 
   // Memoized function to process current volume

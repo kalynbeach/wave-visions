@@ -1,7 +1,6 @@
 "use client";
 
 import { createContext, useContext, useCallback, useEffect, useState } from "react";
-import { useAudioProcessor } from "./audio-processor-context";
 import type { AudioProcessor } from "@/lib/audio";
 
 type AudioWaveformState = Float32Array | null;
@@ -21,14 +20,13 @@ export function AudioWaveformProvider({ children }: { children: React.ReactNode 
   );
 }
 
-export function useAudioWaveform() {
+export function useAudioWaveform(audioProcessor: AudioProcessor | null) {
   const context = useContext(AudioWaveformContext);
 
   if (context === undefined) {
     throw new Error("useAudioWaveform must be used within a AudioWaveformProvider");
   }
 
-  const [audioProcessor] = useAudioProcessor();
   const [audioWaveform, setAudioWaveform] = context;
 
   // Process audio stream waveform data

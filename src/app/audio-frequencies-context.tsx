@@ -1,13 +1,20 @@
 "use client";
 
 import { createContext, useContext, useCallback, useEffect, useState } from "react";
-import { useAudioProcessor } from "./audio-processor-context";
 import type { AudioProcessor } from "@/lib/audio";
 import type { AudioFrequencies } from "@/lib/definitions";
 
-type AudioFrequenciesState = AudioFrequencies | null;
+type AudioFrequenciesState = AudioFrequencies;
 
-const initialState: AudioFrequenciesState = null;
+const initialState: AudioFrequenciesState = {
+  subBass: 0,
+  bass: 0,
+  lowMidrange: 0,
+  midrange: 0,
+  upperMidrange: 0,
+  presence: 0,
+  brilliance: 0,
+};
 
 export const AudioFrequenciesContext = createContext<
   [AudioFrequenciesState, React.Dispatch<React.SetStateAction<AudioFrequenciesState>>] | undefined
@@ -22,14 +29,13 @@ export function AudioFrequenciesProvider({ children }: { children: React.ReactNo
   );
 }
 
-export function useAudioFrequencies() {
+export function useAudioFrequencies(audioProcessor: AudioProcessor | null) {
   const context = useContext(AudioFrequenciesContext);
 
   if (context === undefined) {
     throw new Error("useAudioFrequencies must be used within a AudioFrequenciesProvider");
   }
 
-  const [audioProcessor] = useAudioProcessor();
   const [audioFrequencies, setAudioFrequencies] = context;
 
   // Process audio stream frequency data

@@ -7,7 +7,7 @@ import Oscilloscope from "@/components/oscilloscope";
 
 export default function OscilloscopeVision() {
   const [audioProcessor] = useAudioProcessor();
-  const [audioWaveform] = useAudioWaveform();
+  const [audioWaveform] = useAudioWaveform(audioProcessor);
 
   return (
     <Canvas>
