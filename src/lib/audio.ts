@@ -49,7 +49,7 @@ export class AudioProcessor {
 
   getVolume(): number {
     const amplitudeData = this.getAmplitudeData();
-    this.volume = amplitudeData.reduce((acc, cur) => acc + cur, 0) / amplitudeData.length;
+    this.volume = Math.round(amplitudeData.reduce((acc, cur) => acc + cur, 0) / amplitudeData.length);
     return this.volume;
   }
 
@@ -83,7 +83,7 @@ export class AudioProcessor {
     for (let i = lowerIndex; i <= upperIndex; i++) {
       sum += frequencyDataArray[i];
     }
-    const average = sum / (upperIndex - lowerIndex + 1);
+    const average = Math.round(sum / (upperIndex - lowerIndex + 1));
     return average;
   }
 }
