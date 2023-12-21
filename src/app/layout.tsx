@@ -9,7 +9,7 @@ import { AudioFrequenciesProvider } from "./audio-frequencies-context";
 import { AudioWaveformProvider } from "./audio-waveform-context";
 import { VisionsProvider } from "./visions-context";
 import Header from "@/components/header";
-import AudioProcessor from "@/components/audio-processor";
+import AudioInfo from "@/components/audio-info";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -36,7 +36,7 @@ export default function RootLayout({
                       <body className={`${inter.className} dark w-screen h-screen p-2`}>
                         <div className="relative w-full h-full flex flex-col">
                           <Header />
-                          <AudioProcessor />
+                          <AudioInfo />
                           <main className="absolute w-full h-full">
                             {children}
                           </main>
