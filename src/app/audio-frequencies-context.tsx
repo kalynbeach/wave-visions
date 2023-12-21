@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useCallback, useEffect, useState } from "react";
-import type { AudioProcessor } from "@/lib/audio";
+import type { AudioProcessor } from "@/lib/audio-processor";
 import type { AudioFrequencies } from "@/lib/definitions";
 
 type AudioFrequenciesState = AudioFrequencies;

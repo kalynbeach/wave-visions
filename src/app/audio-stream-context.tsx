@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import { useAudioDevice } from "./audio-device-context";
-import { AudioProcessor } from "@/lib/audio";
+import { AudioProcessor } from "@/lib/audio-processor";
 
 
 type AudioStreamState = {

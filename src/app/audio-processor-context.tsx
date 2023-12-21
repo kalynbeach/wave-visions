@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useCallback, useEffect, useState } from "react";
 import { useAudioStream } from "./audio-stream-context";
-import { AudioProcessor } from "@/lib/audio";
+import { AudioProcessor } from "@/lib/audio-processor";
 
 type AudioProcessorState = AudioProcessor | null;
 

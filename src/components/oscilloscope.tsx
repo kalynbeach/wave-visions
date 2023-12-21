@@ -5,7 +5,7 @@ import React, { useRef, useState } from "react";
 import { useFrame, ThreeElements } from "@react-three/fiber";
 import { Line2 } from "three-stdlib";
 import { Line } from "@react-three/drei";
-import { AudioProcessor } from "@/lib/audio";
+import { AudioProcessor } from "@/lib/audio-processor";
 
 type OscilloscopeProps = ThreeElements["lineBasicMaterial"] & {
   data: Float32Array;
