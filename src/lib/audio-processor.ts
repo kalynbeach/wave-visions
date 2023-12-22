@@ -18,8 +18,8 @@ export class AudioProcessor {
   private amplitudeDataArray: Uint8Array | null = null;
   private waveformDataArray: Float32Array | null = null;
 
-  constructor(context: AudioContext, stream: MediaStream) {
-    this.audioContext = context;
+  constructor(stream: MediaStream) {
+    this.audioContext = new AudioContext();
     this.stream = stream;
     this.source = this.audioContext.createMediaStreamSource(stream);
     this.amplitudeAnalyser = this.audioContext.createAnalyser();

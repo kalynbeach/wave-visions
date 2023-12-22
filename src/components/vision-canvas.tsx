@@ -1,21 +1,22 @@
-'use client'
+"use client";
 
-import { VisionSelection, useVisions } from '@/app/visions-context'
-import BoxesVision from './boxes-vision'
-import SphereVision from './sphere-vision'
-import OscilloscopeVision from './oscilloscope-vision'
+import { VisionSelection, useVisions } from "@/app/visions-context";
+import BoxesVision from "./boxes-vision";
+import SphereVision from "./sphere-vision";
+import OscilloscopeVision from "./oscilloscope-vision";
 
-type Props = {}
+type Props = {};
 
 export default function VisionCanvas({}: Props) {
-  const [visionsState] = useVisions()
+  const [visionsState] = useVisions();
+  // const [audio] = useWaveVisionsAudio();
 
   return (
-    <div className='vision-canvas w-full h-full border dark:border-neutral-900 rounded-sm'>
+    <div className="vision-canvas w-full h-full border dark:border-neutral-900 rounded-sm">
       { visionsState.selected === VisionSelection.Boxes && <BoxesVision /> }
       { visionsState.selected === VisionSelection.Sphere && <SphereVision /> }
       { visionsState.selected === VisionSelection.Oscilloscope && <OscilloscopeVision /> }
       {/* TODO: Add other Visions */}
     </div>
-  )
+  );
 }

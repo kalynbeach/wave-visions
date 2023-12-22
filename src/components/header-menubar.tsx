@@ -1,7 +1,6 @@
 "use client";
 
-import { useMediaDevices } from "@/app/media-devices-context";
-import { useAudioDevice } from "@/app/audio-device-context";
+import { useMediaDevices } from "@/contexts/media-devices";
 import { VisionSelection, useVisions } from "@/app/visions-context";
 import {
   Menubar,
@@ -20,17 +19,17 @@ import {
 } from "@/components/ui/menubar";
 
 export default function HeaderMenubar() {
-  const [mediaDevices] = useMediaDevices();
-  const [audioDevice, setAudioDevice] = useAudioDevice();
+  const [mediaDevices, setMediaDevices] = useMediaDevices();
   const [visionsState, setVisionsState] = useVisions();
 
   const handleDeviceChange = (value: string) => {
-    setAudioDevice({
-      ...audioDevice,
-      device: mediaDevices.devices.find(
-        (device) => device.label === value
-      ),
-    });
+    console.log(`[HeaderMenubar handleDeviceChange] mediaDevices: `, mediaDevices);
+    if (!mediaDevices.devices) return;
+    const device = mediaDevices.devices.find((device) => device.label === value);
+    if (device) {
+      console.log(`[HeaderMenubar handleDeviceChange] changing device: `, device);
+      setMediaDevices(prevState => ({ ...prevState, audioDevice: device }));
+    }
   };
 
   const handleVisionChange = (value: string) => {
@@ -56,13 +55,15 @@ export default function HeaderMenubar() {
             Audio Devices
           </MenubarItem>
           {/* <MenubarSeparator /> */}
-          <MenubarRadioGroup value={audioDevice.device?.label} onValueChange={handleDeviceChange}>
-            {mediaDevices.devices.filter((device) => device.kind === "audioinput").map(device => (
-              <MenubarRadioItem key={device.label} value={device.label}>
-                {device.label || 'Unknown Device'}
-              </MenubarRadioItem>
-            ))}
-          </MenubarRadioGroup>
+          {mediaDevices.devices && mediaDevices.audioDevice && (
+            <MenubarRadioGroup value={mediaDevices.audioDevice.label} onValueChange={handleDeviceChange}>
+              {mediaDevices.devices.map(device => (
+                <MenubarRadioItem key={device.label} value={device.label}>
+                  {device.label || 'Unknown Device'}
+                </MenubarRadioItem>
+              ))}
+            </MenubarRadioGroup>
+          )}
           {/* <MenubarCheckboxItem checked>Microphone</MenubarCheckboxItem> */}
         </MenubarContent>
       </MenubarMenu>
