@@ -33,7 +33,6 @@ export default function HeaderMenubar() {
   };
 
   const handleVisionChange = (value: string) => {
-    // setVisionsState({ ...visionsState, selected: value as VisionSelection });
     setVisions(prevState => ({ ...prevState, selected: value }));
   };
 
@@ -42,10 +41,10 @@ export default function HeaderMenubar() {
       <MenubarMenu>
         <MenubarTrigger>Info</MenubarTrigger>
         <MenubarContent>
-          <MenubarItem>Audio {`->`} Processing {`->`} Visuals</MenubarItem>
+          <MenubarItem>Audio {`->`} Data {`->`} Visions</MenubarItem>
           <MenubarSeparator />
-          <MenubarItem disabled>
-            Made by @kalynbeach
+          <MenubarItem className="flex flex-row gap-1">
+            Built by <a className="text-[#1AE803]" href="https://github.com/kalynbeach" target="_blank">@kalynbeach</a>
           </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
@@ -55,7 +54,7 @@ export default function HeaderMenubar() {
           <MenubarItem disabled className="font-medium">
             Audio Devices
           </MenubarItem>
-          {/* <MenubarSeparator /> */}
+          <MenubarSeparator />
           {mediaDevices.devices && mediaDevices.audioDevice && (
             <MenubarRadioGroup value={mediaDevices.audioDevice.label} onValueChange={handleDeviceChange}>
               {mediaDevices.devices.map(device => (
@@ -65,7 +64,6 @@ export default function HeaderMenubar() {
               ))}
             </MenubarRadioGroup>
           )}
-          {/* <MenubarCheckboxItem checked>Microphone</MenubarCheckboxItem> */}
         </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>
