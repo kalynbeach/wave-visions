@@ -25,16 +25,13 @@ export function AudioStreamProvider({ children }: { children: React.ReactNode })
 
   useEffect(() => {
     async function fetchAudioStream(audioDevice: MediaDeviceInfo) {
-      console.log(`[fetchAudioStream] audioDevice: `, audioDevice);
       try {
         const audioStream = await navigator.mediaDevices.getUserMedia({
           audio: {
             deviceId: audioDevice.deviceId,
           },
         });
-        console.log(`[fetchAudioStream] audioStream: `, audioStream);
         setAudioStream(prevState => audioStream);
-        // setAudioStream(audioStream);
       } catch (error) {
         console.error(`[fetchAudioStream] ERROR: `, error);
       }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useMediaDevices } from "@/contexts/media-devices";
-import { VisionSelection, useVisions } from "@/app/visions-context";
+import { useVisions } from "@/contexts/visions";
 import {
   Menubar,
   MenubarCheckboxItem,
@@ -20,7 +20,7 @@ import {
 
 export default function HeaderMenubar() {
   const [mediaDevices, setMediaDevices] = useMediaDevices();
-  const [visionsState, setVisionsState] = useVisions();
+  const [visions, setVisions] = useVisions();
 
   const handleDeviceChange = (value: string) => {
     console.log(`[HeaderMenubar handleDeviceChange] mediaDevices: `, mediaDevices);
@@ -33,7 +33,8 @@ export default function HeaderMenubar() {
   };
 
   const handleVisionChange = (value: string) => {
-    setVisionsState({ ...visionsState, selected: value as VisionSelection });
+    // setVisionsState({ ...visionsState, selected: value as VisionSelection });
+    setVisions(prevState => ({ ...prevState, selected: value }));
   };
 
   return (
@@ -70,10 +71,10 @@ export default function HeaderMenubar() {
       <MenubarMenu>
         <MenubarTrigger>Visions</MenubarTrigger>
         <MenubarContent>
-          <MenubarRadioGroup value={visionsState.selected} onValueChange={handleVisionChange}>
-            {Object.keys(VisionSelection).map((vision) => (
-              <MenubarRadioItem key={vision} value={vision}>
-                {vision}
+          <MenubarRadioGroup value={visions.activeVision ?? undefined} onValueChange={handleVisionChange}>
+            {visions.visions && visions.visions.map(vision => (
+              <MenubarRadioItem key={vision.name} value={vision.name}>
+                {vision.name}
               </MenubarRadioItem>
             ))}
           </MenubarRadioGroup>

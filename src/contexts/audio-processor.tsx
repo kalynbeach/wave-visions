@@ -1,16 +1,21 @@
 "use client";
 
-import { createContext, useContext, useCallback, useEffect, useRef, useState } from "react";
+import { createContext, useContext, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useAudioStream } from "@/contexts/audio-stream";
 import { AudioProcessor } from "@/lib/audio-processor";
+import type { AudioFrequencies } from "@/lib/definitions";
 
 type AudioProcessorState = {
   processor: AudioProcessor | null;
+  frequencies: AudioFrequencies | null;
+  waveform: Float32Array | null;
   volume: number;
 };
 
 const initialState: AudioProcessorState = {
   processor: null,
+  frequencies: null,
+  waveform: null,
   volume: 0,
 };
 
@@ -31,42 +36,63 @@ export function AudioProcessorProvider({ children }: { children: React.ReactNode
   const [audioProcessor, setAudioProcessor] = useState<AudioProcessorState>(initialState);
 
   // Initialize AudioProcessor with a given audio stream
-  useEffect(() => {
-    function initAudioProcessor(audioStream: MediaStream) {
-      const processor = new AudioProcessor(audioStream);
-      setAudioProcessor(prevState => ({ processor, volume: 0 }));
-    };
+  const processor = useMemo(() => audioStream ? new AudioProcessor(audioStream) : null, [audioStream]);
 
-    if (audioStream) {
-      initAudioProcessor(audioStream);
+  const frequenciesRef = useRef<AudioFrequencies | null>(null);
+  const volumeRef = useRef<number>(0);
+
+  // Process audio frequency data
+  useEffect(() => {
+    let animationFrameId: number;
+
+    const processFrequencies = (processor: AudioProcessor) => {
+      const updateFrequencies = () => {
+        const frequencies = processor.getFrequencies();
+        setAudioProcessor(prevState => ({ ...prevState, frequencies }));
+        frequenciesRef.current = frequencies;
+        animationFrameId = requestAnimationFrame(updateFrequencies);
+      }
+      updateFrequencies();
     }
 
-    return () => {};
-  }, [audioStream]); // eslint-disable-line react-hooks/exhaustive-deps
+    if (processor) {
+      processFrequencies(processor);
+    }
 
-  // Process audio stream volume
+    return () => {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+    };
+  }, [processor]);
+
+  // Process audio volume data
   useEffect(() => {
-    function processVolume(processor: AudioProcessor) {
-      let animationFrameId: number;
+    let animationFrameId: number;
+  
+    const processVolume = (processor: AudioProcessor) => {
       const updateVolume = () => {
-        const volume = audioProcessor.processor?.getVolume() || 0;
-        if (audioProcessor.volume !== volume) {
+        const volume = processor.getVolume() || 0;
+        // Only update if volume changes significantly
+        if (Math.abs(volume - volumeRef.current) > 0.01) {
           setAudioProcessor(prevState => ({ ...prevState, volume }));
+          volumeRef.current = volume;
         }
         animationFrameId = requestAnimationFrame(updateVolume);
       }
       updateVolume();
-      return () => {
-        if (animationFrameId) {
-          cancelAnimationFrame(animationFrameId);
-        }
-      };
     }
-
-    if (audioProcessor.processor) {
-      processVolume(audioProcessor.processor);
+  
+    if (processor) {
+      processVolume(processor);
     }
-  }, [audioProcessor.processor, audioProcessor.volume]);
+  
+    return () => {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+    };
+  }, [processor]);
 
   return (
     <AudioProcessorContext.Provider value={[audioProcessor, setAudioProcessor]}>

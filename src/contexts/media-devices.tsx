@@ -15,8 +15,6 @@ const initialState: MediaDevicesState = {
   audioDevice: null,
 };
 
-// const MediaDevicesContext = createContext<MediaDevicesState | undefined>(undefined);
-
 const MediaDevicesContext = createContext<
   [MediaDevicesState, React.Dispatch<React.SetStateAction<MediaDevicesState>>] | undefined
 >(undefined);
@@ -50,7 +48,6 @@ export function MediaDevicesProvider({ children }: { children: React.ReactNode }
           (device) => device.label === FALLBACK_AUDIO_DEVICE_LABEL
         ) || devices[0];
 
-        // setMediaDevices({ devices, audioDevice });
         setMediaDevices(prevState => ({ devices, audioDevice }));
       } catch (error) {
         console.error(`[initMediaDevices] ERROR: `, error);
@@ -60,7 +57,7 @@ export function MediaDevicesProvider({ children }: { children: React.ReactNode }
     fetchMediaDevices();
 
     return () => {
-      // cleanup
+      // cleanup?
     };
   }, []);
 

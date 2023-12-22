@@ -2,15 +2,11 @@
 
 import { useState } from "react";
 import { useAudioProcessor } from "@/contexts/audio-processor";
-// import { useAudioVolume } from "@/app/audio-volume-context";
-import { useAudioFrequencies } from "@/app/audio-frequencies-context";
 import { Button } from "@/components/ui/button";
 import { MinusIcon, PlusIcon } from "@radix-ui/react-icons";
 
 export default function AudioInfo() {
-  const [audioProcessor] = useAudioProcessor();
-  // const [audioVolume] = useAudioVolume(audioProcessor.processor);
-  const [audioFrequencies] = useAudioFrequencies(audioProcessor.processor);
+  const [processor] = useAudioProcessor();
   const [isMinimized, setIsMinimized] = useState(false);
 
   function toggleMinimize() {
@@ -29,11 +25,10 @@ export default function AudioInfo() {
         <div className="w-full flex flex-col justify-between gap-3">
           <div className="flex flex-row justify-between gap-2">
             <p className="text-xs font-mono font-medium">volume</p>
-            {/* <p className="text-sm font-mono">{audioVolume}</p> */}
-            <p className="text-sm font-mono">{audioProcessor.volume}</p>
+            <p className="text-sm font-mono">{processor.volume}</p>
           </div>
           <div className="flex flex-col divide-y divide-neutral-900">
-            {Object.entries(audioFrequencies).map((frequency, index) => (
+            {processor.frequencies && Object.entries(processor.frequencies).map((frequency, index) => (
               <div key={index} className="py-1 flex flex-row justify-between items-center">
                 <span className="text-xs font-mono font-medium">{frequency[0]}</span>
                 <span className="text-sm font-mono">{frequency[1]}</span>
