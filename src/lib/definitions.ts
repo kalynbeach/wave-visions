@@ -32,3 +32,9 @@ export const AUDIBLE_SPECTRUM: AudibleSpectrum = {
   presence: { lower: 4000, upper: 6000 },
   brilliance: { lower: 6000, upper: 20000 },
 };
+
+export type Vision = {
+  name: string;
+  description: string;
+  componentName: string;
+};

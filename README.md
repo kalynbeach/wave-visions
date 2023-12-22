@@ -1,6 +1,6 @@
 # wave-visions
 
-🔊 Audio => ℹ️ Data => 🌌 Visuals
+Audio => Data => Visions
 
 ## Usage
 
@@ -28,11 +28,9 @@ yarn dev
 
 ### Concepts
 
-- 'Visions' -> live audio visualizers generated from audio/video inputs
+- "Visions" -> live audio visualizers generated from audio/video inputs
   - Three.js
     - 3D scenes
-  - ASCII art
-    - Generated scenes
 
 ### Libraries
 

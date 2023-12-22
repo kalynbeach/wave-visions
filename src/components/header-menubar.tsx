@@ -1,8 +1,7 @@
 "use client";
 
-import { useMediaDevices } from "@/app/media-devices-context";
-import { useAudioDevice } from "@/app/audio-device-context";
-import { VisionSelection, useVisions } from "@/app/visions-context";
+import { useMediaDevices } from "@/contexts/media-devices";
+import { useVisions } from "@/contexts/visions";
 import {
   Menubar,
   MenubarCheckboxItem,
@@ -20,21 +19,21 @@ import {
 } from "@/components/ui/menubar";
 
 export default function HeaderMenubar() {
-  const [mediaDevices] = useMediaDevices();
-  const [audioDevice, setAudioDevice] = useAudioDevice();
-  const [visionsState, setVisionsState] = useVisions();
+  const [mediaDevices, setMediaDevices] = useMediaDevices();
+  const [visions, setVisions] = useVisions();
 
   const handleDeviceChange = (value: string) => {
-    setAudioDevice({
-      ...audioDevice,
-      device: mediaDevices.devices.find(
-        (device) => device.label === value
-      ),
-    });
+    console.log(`[HeaderMenubar handleDeviceChange] mediaDevices: `, mediaDevices);
+    if (!mediaDevices.devices) return;
+    const device = mediaDevices.devices.find((device) => device.label === value);
+    if (device) {
+      console.log(`[HeaderMenubar handleDeviceChange] changing device: `, device);
+      setMediaDevices(prevState => ({ ...prevState, audioDevice: device }));
+    }
   };
 
   const handleVisionChange = (value: string) => {
-    setVisionsState({ ...visionsState, selected: value as VisionSelection });
+    setVisions(prevState => ({ ...prevState, selected: value }));
   };
 
   return (
@@ -42,10 +41,10 @@ export default function HeaderMenubar() {
       <MenubarMenu>
         <MenubarTrigger>Info</MenubarTrigger>
         <MenubarContent>
-          <MenubarItem>Audio {`->`} Processing {`->`} Visuals</MenubarItem>
+          <MenubarItem>Audio {`->`} Data {`->`} Visions</MenubarItem>
           <MenubarSeparator />
-          <MenubarItem disabled>
-            Made by @kalynbeach
+          <MenubarItem className="flex flex-row gap-1">
+            Built by <a className="text-[#1AE803]" href="https://github.com/kalynbeach" target="_blank">@kalynbeach</a>
           </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
@@ -55,24 +54,25 @@ export default function HeaderMenubar() {
           <MenubarItem disabled className="font-medium">
             Audio Devices
           </MenubarItem>
-          {/* <MenubarSeparator /> */}
-          <MenubarRadioGroup value={audioDevice.device?.label} onValueChange={handleDeviceChange}>
-            {mediaDevices.devices.filter((device) => device.kind === "audioinput").map(device => (
-              <MenubarRadioItem key={device.label} value={device.label}>
-                {device.label || 'Unknown Device'}
-              </MenubarRadioItem>
-            ))}
-          </MenubarRadioGroup>
-          {/* <MenubarCheckboxItem checked>Microphone</MenubarCheckboxItem> */}
+          <MenubarSeparator />
+          {mediaDevices.devices && mediaDevices.audioDevice && (
+            <MenubarRadioGroup value={mediaDevices.audioDevice.label} onValueChange={handleDeviceChange}>
+              {mediaDevices.devices.map(device => (
+                <MenubarRadioItem key={device.label} value={device.label}>
+                  {device.label || 'Unknown Device'}
+                </MenubarRadioItem>
+              ))}
+            </MenubarRadioGroup>
+          )}
         </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>
         <MenubarTrigger>Visions</MenubarTrigger>
         <MenubarContent>
-          <MenubarRadioGroup value={visionsState.selected} onValueChange={handleVisionChange}>
-            {Object.keys(VisionSelection).map((vision) => (
-              <MenubarRadioItem key={vision} value={vision}>
-                {vision}
+          <MenubarRadioGroup value={visions.activeVision ?? undefined} onValueChange={handleVisionChange}>
+            {visions.visions && visions.visions.map(vision => (
+              <MenubarRadioItem key={vision.name} value={vision.name}>
+                {vision.name}
               </MenubarRadioItem>
             ))}
           </MenubarRadioGroup>

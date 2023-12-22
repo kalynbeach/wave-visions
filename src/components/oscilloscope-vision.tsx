@@ -1,21 +1,19 @@
 "use client";
 
-import { useAudioProcessor } from "@/app/audio-processor-context";
-import { useAudioWaveform } from "@/app/audio-waveform-context";
+import { useAudioProcessor } from "@/contexts/audio-processor";
 import Canvas from "@/components/canvas";
 import Oscilloscope from "@/components/oscilloscope";
 
 export default function OscilloscopeVision() {
-  const [audioProcessor] = useAudioProcessor();
-  const [audioWaveform] = useAudioWaveform(audioProcessor);
+  const [processor] = useAudioProcessor();
 
   return (
     <Canvas>
       {/* <ambientLight /> */}
       {/* <pointLight position={[10, 10, 10]} /> */}
-      { audioWaveform && (
+      { processor.waveform && (
         <Oscilloscope
-          data={audioWaveform}
+          data={processor.waveform}
         />
       ) }
     </Canvas>
