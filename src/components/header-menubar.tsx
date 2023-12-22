@@ -23,17 +23,15 @@ export default function HeaderMenubar() {
   const [visions, setVisions] = useVisions();
 
   const handleDeviceChange = (value: string) => {
-    console.log(`[HeaderMenubar handleDeviceChange] mediaDevices: `, mediaDevices);
     if (!mediaDevices.devices) return;
     const device = mediaDevices.devices.find((device) => device.label === value);
     if (device) {
-      console.log(`[HeaderMenubar handleDeviceChange] changing device: `, device);
       setMediaDevices(prevState => ({ ...prevState, audioDevice: device }));
     }
   };
 
   const handleVisionChange = (value: string) => {
-    setVisions(prevState => ({ ...prevState, selected: value }));
+    setVisions(prevState => ({ ...prevState, activeVision: value }));
   };
 
   return ( 
