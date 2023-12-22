@@ -14,10 +14,16 @@ export default function AudioInfo() {
   }
 
   return (
-    <div className="audio-processor z-50 md:w-64 m-2 mt-auto p-4 flex flex-col gap-4 bg-background border rounded-sm">
+    <div className="audio-processor z-50 md:w-64 m-2 mt-auto p-3 md:p-4 flex flex-col gap-4 bg-background border rounded-sm">
       <div className="w-full flex flex-row items-center justify-between">
         <span className="font-mono font-bold text-sm">Audio Info</span>
-        <Button onClick={toggleMinimize} className="rounded-sm" variant="ghost" size="icon" aria-label="Minimize AudioProcessor Button">
+        <Button
+          onClick={toggleMinimize}
+          size="icon"
+          variant="outline"
+          className="border border-neutral-900 rounded-sm"
+          aria-label="Minimize AudioProcessor Button"
+        >
           {isMinimized ? <PlusIcon /> : <MinusIcon />}
         </Button>
       </div>

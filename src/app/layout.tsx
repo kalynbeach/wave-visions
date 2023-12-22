@@ -29,9 +29,7 @@ export default function RootLayout({
                 <div className="relative w-full h-full flex flex-col">
                   <Header />
                   <AudioInfo />
-                  <main className="absolute w-full h-full">
-                    {children}
-                  </main>
+                  {children}
                 </div>
               </body>
             </VisionsProvider>

@@ -1,6 +1,6 @@
 # wave-visions
 
-Audio => Data => Visions
+Audio -> Data -> Visions
 
 ## Usage
 

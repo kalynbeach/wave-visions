@@ -36,29 +36,31 @@ export default function HeaderMenubar() {
     setVisions(prevState => ({ ...prevState, selected: value }));
   };
 
-  return (
-    <Menubar>
+  return ( 
+    <Menubar className="w-fit rounded-sm">
       <MenubarMenu>
-        <MenubarTrigger>Info</MenubarTrigger>
-        <MenubarContent>
-          <MenubarItem>Audio {`->`} Data {`->`} Visions</MenubarItem>
+        <MenubarTrigger className="rounded-sm">Info</MenubarTrigger>
+        <MenubarContent className="rounded-sm">
+          <MenubarItem className="rounded-sm">
+            Audio {`->`} Data {`->`} Visions
+          </MenubarItem>
           <MenubarSeparator />
-          <MenubarItem className="flex flex-row gap-1">
+          <MenubarItem className="flex flex-row gap-1 rounded-sm">
             Built by <a className="text-[#1AE803]" href="https://github.com/kalynbeach" target="_blank">@kalynbeach</a>
           </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>
-        <MenubarTrigger>Devices</MenubarTrigger>
-        <MenubarContent>
-          <MenubarItem disabled className="font-medium">
+        <MenubarTrigger className="rounded-sm">Devices</MenubarTrigger>
+        <MenubarContent className="rounded-sm" collisionPadding={{ left: 24, right: 24 }}>
+          <MenubarItem disabled className="font-semibold rounded-sm">
             Audio Devices
           </MenubarItem>
           <MenubarSeparator />
           {mediaDevices.devices && mediaDevices.audioDevice && (
             <MenubarRadioGroup value={mediaDevices.audioDevice.label} onValueChange={handleDeviceChange}>
               {mediaDevices.devices.map(device => (
-                <MenubarRadioItem key={device.label} value={device.label}>
+                <MenubarRadioItem key={device.label} value={device.label} className="rounded-sm">
                   {device.label || 'Unknown Device'}
                 </MenubarRadioItem>
               ))}
@@ -67,11 +69,11 @@ export default function HeaderMenubar() {
         </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>
-        <MenubarTrigger>Visions</MenubarTrigger>
-        <MenubarContent>
+        <MenubarTrigger className="rounded-sm">Visions</MenubarTrigger>
+        <MenubarContent className="rounded-sm">
           <MenubarRadioGroup value={visions.activeVision ?? undefined} onValueChange={handleVisionChange}>
             {visions.visions && visions.visions.map(vision => (
-              <MenubarRadioItem key={vision.name} value={vision.name}>
+              <MenubarRadioItem key={vision.name} value={vision.name} className="rounded-sm">
                 {vision.name}
               </MenubarRadioItem>
             ))}

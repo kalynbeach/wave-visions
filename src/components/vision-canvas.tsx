@@ -10,9 +10,8 @@ type Props = {};
 export default function VisionCanvas({}: Props) {
   const [visions, setVisions] = useVisions();
 
-
   return (
-    <div className="vision-canvas w-full h-full border dark:border-neutral-900 rounded-sm">
+    <div className="vision-canvas w-full h-full">
       { visions.activeVision === VisionRegistry.Boxes && <BoxesVision /> }
       { visions.activeVision === VisionRegistry.Sphere && <SphereVision /> }
       { visions.activeVision === VisionRegistry.Oscilloscope && <OscilloscopeVision /> }
