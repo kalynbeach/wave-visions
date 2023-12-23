@@ -1,13 +1,12 @@
 import "@/styles/globals.css";
-import { Inter } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
 import { MediaDevicesProvider } from "@/contexts/media-devices";
 import { AudioStreamProvider } from "@/contexts/audio-stream";
 import { AudioProcessorProvider } from "@/contexts/audio-processor";
 import { VisionsProvider } from "@/contexts/visions";
 import Header from "@/components/header";
 import AudioInfo from "@/components/audio-info";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "wave-visions",
@@ -25,7 +24,7 @@ export default function RootLayout({
         <AudioStreamProvider>
           <AudioProcessorProvider>
             <VisionsProvider>
-              <body className={`${inter.className} dark w-screen h-screen p-2`}>
+              <body className={`dark w-screen h-screen p-2 font-sans antialiased ${GeistSans.variable} ${GeistMono.variable}`}>
                 <div className="relative w-full h-full grid grid-cols-3 sm:grid-cols-6 grid-rows-6">
                   <Header />
                   <AudioInfo />
