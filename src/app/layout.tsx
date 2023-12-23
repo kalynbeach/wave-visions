@@ -26,10 +26,12 @@ export default function RootLayout({
           <AudioProcessorProvider>
             <VisionsProvider>
               <body className={`${inter.className} dark w-screen h-screen p-2`}>
-                <div className="relative w-full h-full flex flex-col">
+                <div className="relative w-full h-full grid grid-cols-3 sm:grid-cols-6 grid-rows-6">
                   <Header />
                   <AudioInfo />
-                  {children}
+                  <main className="absolute inset-0 z-0 col-span-full row-span-full w-full h-full place-self-center border dark:border-neutral-900 rounded-sm">
+                    {children}
+                  </main>
                 </div>
               </body>
             </VisionsProvider>

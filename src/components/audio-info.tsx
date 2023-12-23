@@ -14,7 +14,7 @@ export default function AudioInfo() {
   }
 
   return (
-    <div className="audio-processor z-50 md:w-64 m-2 mt-auto p-3 md:p-4 flex flex-col gap-4 bg-background border rounded-sm">
+    <div className="col-span-2 sm:col-span-1 row-end-7 self-end z-50 md:w-64 h-fit m-2 p-3 sm:p-4 flex flex-col gap-4 bg-background border rounded-sm">
       <div className="w-full flex flex-row items-center justify-between">
         <span className="font-mono font-bold text-sm">Audio Info</span>
         <Button
