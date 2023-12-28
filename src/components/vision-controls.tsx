@@ -1,17 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import { useVisions } from "@/contexts/visions";
+import { useWaveVisions } from "@/contexts/wave-visions";
+import { useVision } from "@/contexts/vision";
 import { Button } from "@/components/ui/button";
 import { MinusIcon, PlusIcon } from "@radix-ui/react-icons";
 
 export default function VisionControls() {
-  const [isMinimized, setIsMinimized] = useState(true);
-  const [visions, setVisions] = useVisions();
+  const [waveVisions] = useWaveVisions();
+  const [vision, setVision] = useVision();
+  const [isMinimized, setIsMinimized] = useState(false);
 
   function toggleMinimize() {
     setIsMinimized(!isMinimized);
   }
+
+  if (!waveVisions.showVisionControls) return null;
 
   return (
     <div className="vision-controls col-span-3 sm:col-end-7 row-end-7 self-end z-50 h-fit m-2 p-3 sm:p-4 flex flex-col gap-3 bg-background border rounded-sm">
@@ -22,7 +26,7 @@ export default function VisionControls() {
           size="icon"
           variant="outline"
           className="border border-neutral-900 rounded-sm"
-          aria-label="Minimize AudioProcessor Button"
+          aria-label="Minimize Volume Controls Button"
         >
           {isMinimized ? <PlusIcon /> : <MinusIcon />}
         </Button>
@@ -34,8 +38,8 @@ export default function VisionControls() {
             type="range"
             min="0"
             max="100"
-            value={visions.agility}
-            onChange={e => setVisions(prevState => ({ ...prevState, agility: parseInt(e.target.value) }))}
+            value={vision.agility}
+            onChange={e => setVision(prevState => ({ ...prevState, agility: parseInt(e.target.value) }))}
             className="accent-[#1AE803]"
           />
         </div>
@@ -45,8 +49,8 @@ export default function VisionControls() {
             type="range"
             min="0"
             max="100"
-            value={visions.intellect}
-            onChange={e => setVisions(prevState => ({ ...prevState, intellect: parseInt(e.target.value) }))}
+            value={vision.intellect}
+            onChange={e => setVision(prevState => ({ ...prevState, intellect: parseInt(e.target.value) }))}
             className="accent-[#1AE803]"
           />
         </div>
@@ -56,8 +60,8 @@ export default function VisionControls() {
             type="range"
             min="0"
             max="100"
-            value={visions.strength}
-            onChange={e => setVisions(prevState => ({ ...prevState, strength: parseInt(e.target.value) }))}
+            value={vision.strength}
+            onChange={e => setVision(prevState => ({ ...prevState, strength: parseInt(e.target.value) }))}
             className="accent-[#1AE803]"
           />
         </div>

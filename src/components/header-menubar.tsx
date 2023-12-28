@@ -1,7 +1,7 @@
 "use client";
 
 import { useMediaDevices } from "@/contexts/media-devices";
-import { useVisions } from "@/contexts/visions";
+import { useWaveVisions } from "@/contexts/wave-visions";
 import {
   Menubar,
   MenubarCheckboxItem,
@@ -20,7 +20,7 @@ import {
 
 export default function HeaderMenubar() {
   const [mediaDevices, setMediaDevices] = useMediaDevices();
-  const [visions, setVisions] = useVisions();
+  const [waveVisions, setWaveVisions] = useWaveVisions();
 
   const handleDeviceChange = (value: string) => {
     if (!mediaDevices.devices) return;
@@ -31,7 +31,7 @@ export default function HeaderMenubar() {
   };
 
   const handleVisionChange = (value: string) => {
-    setVisions(prevState => ({ ...prevState, activeVision: value }));
+    setWaveVisions(prevState => ({ ...prevState, activeVision: value }));
   };
 
   return ( 
@@ -69,8 +69,8 @@ export default function HeaderMenubar() {
       <MenubarMenu>
         <MenubarTrigger className="rounded-sm">Visions</MenubarTrigger>
         <MenubarContent className="rounded-sm">
-          <MenubarRadioGroup value={visions.activeVision ?? undefined} onValueChange={handleVisionChange}>
-            {visions.visions && visions.visions.map(vision => (
+          <MenubarRadioGroup value={waveVisions.activeVision ?? undefined} onValueChange={handleVisionChange}>
+            {waveVisions.visions && waveVisions.visions.map(vision => (
               <MenubarRadioItem key={vision.name} value={vision.name} className="rounded-sm">
                 {vision.name}
               </MenubarRadioItem>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import HeaderMenubar from "./header-menubar";
+import WaveVisionsControls from "./wave-visions-controls";
 
 export default function Header() {
   return (
@@ -7,7 +8,10 @@ export default function Header() {
       <Link href="/" className="font-mono font-bold transition hover:text-kb-green">
         <code>wave-visions</code>
       </Link>
-      <HeaderMenubar />
+      <div className="flex-1 flex flex-row items-center justify-between gap-2">
+        <HeaderMenubar />
+        <WaveVisionsControls />
+      </div>
     </header>
   );
 }

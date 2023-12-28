@@ -38,3 +38,9 @@ export type Vision = {
   description: string;
   componentName: string;
 };
+
+export enum VisionRegistry {
+  Boxes = 'Boxes',
+  Sphere = 'Sphere',
+  Oscilloscope = 'Oscilloscope',
+};
