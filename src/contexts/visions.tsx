@@ -22,11 +22,17 @@ function initVisions(): Vision[] {
 type VisionsState = {
   visions: Vision[];
   activeVision: string;
+  agility: number;
+  intellect: number;
+  strength: number;
 };
 
 const initialState: VisionsState = {
   visions: initVisions(),
   activeVision: VisionRegistry.Sphere,
+  agility: 0,
+  intellect: 0,
+  strength: 0,
 };
 
 const VisionsContext = createContext<
@@ -43,24 +49,6 @@ export function useVisions() {
 
 export function VisionsProvider({ children }: { children: React.ReactNode }) {
   const [visions, setVisions] = useState<VisionsState>(initialState);
-
-  // Initialize visions state
-  // useEffect(() => {
-  //   async function fetchVisions() {
-  //     try {
-  //       const res = await fetch("/api/visions");
-  //       const visions = await res.json();
-  //       setVisions(prevState => ({ ...prevState, visions }));
-  //     } catch (error) {
-  //       console.error(`[initVisions] ERROR: `, error);
-  //     }
-  //   }
-  //   fetchVisions();
-  //   return () => {
-  //     // cleanup?
-  //   };
-  // }, []);
-
   return (
     <VisionsContext.Provider value={[visions, setVisions]}>
       {children}

@@ -7,6 +7,7 @@ import { AudioProcessorProvider } from "@/contexts/audio-processor";
 import { VisionsProvider } from "@/contexts/visions";
 import Header from "@/components/header";
 import AudioInfo from "@/components/audio-info";
+import VisionControls from "@/components/vision-controls";
 
 export const metadata = {
   title: "wave-visions",
@@ -28,6 +29,7 @@ export default function RootLayout({
                 <div className="relative w-full h-full grid grid-cols-3 sm:grid-cols-6 grid-rows-6">
                   <Header />
                   <AudioInfo />
+                  <VisionControls />
                   <main className="absolute inset-0 z-0 col-span-full row-span-full w-full h-full place-self-center border dark:border-neutral-900 rounded-sm">
                     {children}
                   </main>

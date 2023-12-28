@@ -10,7 +10,7 @@ export default function SphereVision() {
   return (
     <Canvas>
       <ambientLight />
-      <pointLight position={[10, 10, 10]} />
+      {/* <pointLight position={[10, 10, 10]} /> */}
       <Sphere position={[0, 0, 0]} volume={processor.volume} />
     </Canvas>
   );
