@@ -1,6 +1,7 @@
 "use client";
 
-import { useVisions, VisionRegistry } from "@/contexts/visions";
+import { VisionRegistry } from "@/lib/definitions";
+import { useWaveVisions } from "@/contexts/wave-visions";
 import BoxesVision from "./boxes-vision";
 import SphereVision from "./sphere-vision";
 import OscilloscopeVision from "./oscilloscope-vision";
@@ -8,13 +9,13 @@ import OscilloscopeVision from "./oscilloscope-vision";
 type Props = {};
 
 export default function VisionCanvas({}: Props) {
-  const [visions] = useVisions();
+  const [waveVisions] = useWaveVisions();
 
   return (
     <div className="vision-canvas w-full h-full">
-      { visions.activeVision === VisionRegistry.Boxes && <BoxesVision /> }
-      { visions.activeVision === VisionRegistry.Sphere && <SphereVision /> }
-      { visions.activeVision === VisionRegistry.Oscilloscope && <OscilloscopeVision /> }
+      { waveVisions.activeVision === VisionRegistry.Boxes && <BoxesVision /> }
+      { waveVisions.activeVision === VisionRegistry.Sphere && <SphereVision /> }
+      { waveVisions.activeVision === VisionRegistry.Oscilloscope && <OscilloscopeVision /> }
     </div>
   );
 }
