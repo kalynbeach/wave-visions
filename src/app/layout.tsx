@@ -28,7 +28,7 @@ export default function RootLayout({
             <AudioProcessorProvider>
               <VisionProvider>
                 <body className={`dark w-screen h-screen p-2 font-sans antialiased ${GeistSans.variable} ${GeistMono.variable}`}>
-                  <div className="relative w-full h-full grid grid-cols-3 sm:grid-cols-6 grid-rows-6">
+                  <div className="relative w-full h-full grid grid-cols-4 sm:grid-cols-8 grid-rows-8">
                     <Header />
                     <AudioInfo />
                     <VisionControls />

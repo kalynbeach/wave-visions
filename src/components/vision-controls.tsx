@@ -40,9 +40,9 @@ export default function VisionControls() {
   if (!waveVisions.showVisionControls) return null;
 
   return (
-    <div className="vision-controls col-span-3 sm:col-span-2 sm:col-end-7 row-end-7 self-end z-50 h-fit m-2 p-3 sm:p-4 flex flex-col gap-3 bg-background border rounded-sm">
+    <div className="vision-controls col-span-4 sm:col-span-5 md:col-span-4 lg:col-span-3 sm:col-end-9 md:col-end-9 lg:col-end-9 row-end-9 self-end z-50 md:min-w-64 h-fit m-2 p-3 sm:p-4 flex flex-col gap-3 bg-background border rounded-sm">
       <div className="w-full flex flex-row items-center justify-between">
-        <span className="text-lg font-bold">VisionControls</span>
+        <span className="font-extrabold">VisionControls</span>
         <Button
           onClick={toggleMinimize}
           size="icon"
@@ -90,23 +90,22 @@ function RangeVisionControl({
   handler: (e: React.ChangeEvent<HTMLInputElement>) => void,
 }) {
   return (
-    <div className="w-full flex flex-row justify-between items-center gap-4">
-      <p className="basis-1/6 flex flex-row text-sm font-mono rounded-sm">{name}</p>
-      <div className="flex-shrink">
-        <Badge variant="default" className="w-8 justify-center text-xs font-mono rounded-sm">{value}</Badge>
-      </div>
-      <div className="flex-grow">
-        <input
-          name={name}
-          type="range"
-          min="0"
-          max="100"
-          // value={value}
-          defaultValue={value}
-          onChange={e => handler(e)}
-          className="w-full flex-1 accent-[#1AE803]"
-        />
-      </div>
+    <div className="w-full flex flex-row justify-between items-center gap-3">
+      <p className="basis-[24%] sm:basis-1/4 md:basis-24 flex flex-row text-sm md:text-sm font-mono font-semibold rounded-sm">
+        {name}
+      </p>
+      <Badge variant="default" className="flex-shrink w-8 justify-center text-xs font-mono rounded-sm">
+        {value}
+      </Badge>
+      <input
+        name={name}
+        type="range"
+        min="0"
+        max="100"
+        defaultValue={value}
+        onChange={e => handler(e)}
+        className="flex-grow w-full flex-1 accent-[#1AE803]"
+      />
     </div>
   );
 };
