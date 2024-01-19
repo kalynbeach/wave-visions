@@ -55,13 +55,25 @@ export default function VisionControls() {
       </div>
       <div className={`${isMinimized ? "hidden" : "h-fit w-full flex flex-col justify-between gap-3"}`}>
         <div className="flex flex-row justify-between">
-          <RangeVisionControl name="agility" value={vision.agility} />
+          <RangeVisionControl
+            name="agility"
+            value={vision.agility}
+            handler={handleRangeInputChange}
+          />
         </div>
         <div className="flex flex-row justify-between">
-          <RangeVisionControl name="intellect" value={vision.intellect} />
+          <RangeVisionControl
+            name="intellect"
+            value={vision.intellect}
+            handler={handleRangeInputChange}
+          />
         </div>
         <div className="flex flex-row justify-between">
-          <RangeVisionControl name="strength" value={vision.strength} />
+          <RangeVisionControl
+            name="strength"
+            value={vision.strength}
+            handler={handleRangeInputChange}
+          />
         </div>
       </div>
     </div>
@@ -70,15 +82,15 @@ export default function VisionControls() {
 
 function RangeVisionControl({
   name,
-  value
+  value,
+  handler,
 }: {
   name: string,
-  value: number
+  value: number,
+  handler: (e: React.ChangeEvent<HTMLInputElement>) => void,
 }) {
   return (
     <div className="w-full flex flex-row justify-between items-center gap-4">
-      {/* <div className="basis-1/6 ">
-      </div> */}
       <p className="basis-1/6 flex flex-row text-sm font-mono rounded-sm">{name}</p>
       <div className="flex-shrink">
         <Badge variant="default" className="w-8 justify-center text-xs font-mono rounded-sm">{value}</Badge>
@@ -89,8 +101,9 @@ function RangeVisionControl({
           type="range"
           min="0"
           max="100"
-          defaultValue={value}
           // value={value}
+          defaultValue={value}
+          onChange={e => handler(e)}
           className="w-full flex-1 accent-[#1AE803]"
         />
       </div>
