@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useWaveVisions } from "@/contexts/wave-visions";
 import { useVision } from "@/contexts/vision";
 import { Button } from "@/components/ui/button";
@@ -10,10 +10,33 @@ export default function VisionControls() {
   const [waveVisions] = useWaveVisions();
   const [vision, setVision] = useVision();
   const [isMinimized, setIsMinimized] = useState(false);
+  const [debouncedValue, setDebouncedValue] = useState<{ name: string, value: string } | null>(null);
+  const [inputValue, setInputValue] = useState<{ name: string, value: string } | null>(null);
 
   function toggleMinimize() {
     setIsMinimized(!isMinimized);
   }
+
+  function handleRangeInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setInputValue({name: e.target.name, value: e.target.value});
+  }
+
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      setDebouncedValue(inputValue);
+    }, 250);
+
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [inputValue]);
+
+  useEffect(() => {
+    if (debouncedValue !== null) {
+      console.log(`[VisionControls] ${debouncedValue.name}: ${debouncedValue.value}`);
+      setVision(prevState => ({...prevState, [debouncedValue.name]: parseInt(debouncedValue.value) }));
+    }
+  }, [debouncedValue]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!waveVisions.showVisionControls) return null;
 
@@ -35,33 +58,36 @@ export default function VisionControls() {
         <div className="flex flex-row justify-between">
           <span className="basis-1/4 text-sm font-mono font-medium">agility</span>
           <input
+            name="agility"
             type="range"
             min="0"
             max="100"
-            value={vision.agility}
-            onChange={e => setVision(prevState => ({ ...prevState, agility: parseInt(e.target.value) }))}
+            defaultValue={vision.agility}
+            onChange={e => handleRangeInputChange(e)}
             className="flex-1 accent-[#1AE803]"
           />
         </div>
         <div className="flex flex-row justify-between">
           <span className="basis-1/4 text-sm font-mono font-medium">intellect</span>
           <input
+            name="intellect"
             type="range"
             min="0"
             max="100"
-            value={vision.intellect}
-            onChange={e => setVision(prevState => ({ ...prevState, intellect: parseInt(e.target.value) }))}
+            defaultValue={vision.intellect}
+            onChange={e => handleRangeInputChange(e)}
             className="flex-1 accent-[#1AE803]"
           />
         </div>
         <div className="flex flex-row justify-between">
           <span className="basis-1/4 text-sm font-mono font-medium">strength</span>
           <input
+            name="strength"
             type="range"
             min="0"
             max="100"
-            value={vision.strength}
-            onChange={e => setVision(prevState => ({ ...prevState, strength: parseInt(e.target.value) }))}
+            defaultValue={vision.strength}
+            onChange={e => handleRangeInputChange(e)}
             className="flex-1 accent-[#1AE803]"
           />
         </div>
