@@ -5,6 +5,7 @@ import { useWaveVisions } from "@/contexts/wave-visions";
 import { useVision } from "@/contexts/vision";
 import { Button } from "@/components/ui/button";
 import { MinusIcon, PlusIcon } from "@radix-ui/react-icons";
+import { Badge } from "./ui/badge";
 
 export default function VisionControls() {
   const [waveVisions] = useWaveVisions();
@@ -25,7 +26,6 @@ export default function VisionControls() {
     const timerId = setTimeout(() => {
       setDebouncedValue(inputValue);
     }, 250);
-
     return () => {
       clearTimeout(timerId);
     };
@@ -33,7 +33,6 @@ export default function VisionControls() {
 
   useEffect(() => {
     if (debouncedValue !== null) {
-      console.log(`[VisionControls] ${debouncedValue.name}: ${debouncedValue.value}`);
       setVision(prevState => ({...prevState, [debouncedValue.name]: parseInt(debouncedValue.value) }));
     }
   }, [debouncedValue]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -56,42 +55,45 @@ export default function VisionControls() {
       </div>
       <div className={`${isMinimized ? "hidden" : "h-fit w-full flex flex-col justify-between gap-3"}`}>
         <div className="flex flex-row justify-between">
-          <span className="basis-1/4 text-sm font-mono font-medium">agility</span>
-          <input
-            name="agility"
-            type="range"
-            min="0"
-            max="100"
-            defaultValue={vision.agility}
-            onChange={e => handleRangeInputChange(e)}
-            className="flex-1 accent-[#1AE803]"
-          />
+          <RangeVisionControl name="agility" value={vision.agility} />
         </div>
         <div className="flex flex-row justify-between">
-          <span className="basis-1/4 text-sm font-mono font-medium">intellect</span>
-          <input
-            name="intellect"
-            type="range"
-            min="0"
-            max="100"
-            defaultValue={vision.intellect}
-            onChange={e => handleRangeInputChange(e)}
-            className="flex-1 accent-[#1AE803]"
-          />
+          <RangeVisionControl name="intellect" value={vision.intellect} />
         </div>
         <div className="flex flex-row justify-between">
-          <span className="basis-1/4 text-sm font-mono font-medium">strength</span>
-          <input
-            name="strength"
-            type="range"
-            min="0"
-            max="100"
-            defaultValue={vision.strength}
-            onChange={e => handleRangeInputChange(e)}
-            className="flex-1 accent-[#1AE803]"
-          />
+          <RangeVisionControl name="strength" value={vision.strength} />
         </div>
       </div>
     </div>
   );
 }
+
+function RangeVisionControl({
+  name,
+  value
+}: {
+  name: string,
+  value: number
+}) {
+  return (
+    <div className="w-full flex flex-row justify-between items-center gap-4">
+      {/* <div className="basis-1/6 ">
+      </div> */}
+      <p className="basis-1/6 flex flex-row text-sm font-mono rounded-sm">{name}</p>
+      <div className="flex-shrink">
+        <Badge variant="default" className="w-8 justify-center text-xs font-mono rounded-sm">{value}</Badge>
+      </div>
+      <div className="flex-grow">
+        <input
+          name={name}
+          type="range"
+          min="0"
+          max="100"
+          defaultValue={value}
+          // value={value}
+          className="w-full flex-1 accent-[#1AE803]"
+        />
+      </div>
+    </div>
+  );
+};
