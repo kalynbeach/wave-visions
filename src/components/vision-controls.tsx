@@ -25,7 +25,7 @@ export default function VisionControls() {
   useEffect(() => {
     const timerId = setTimeout(() => {
       setDebouncedValue(inputValue);
-    }, 250);
+    }, 100);
     return () => {
       clearTimeout(timerId);
     };
