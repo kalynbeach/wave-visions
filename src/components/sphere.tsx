@@ -19,7 +19,7 @@ export default function Sphere(props: Props) {
     ref.current.rotation.z -= 0.0064 * vision.intellect;
     // ref.current.rotation.z -= -(vision.intellect / 512);
 
-    let strMod = Math.max(vision.strength * 0.064, 0.064);
+    let strMod = Math.max(vision.strength * 0.0064, 0.064);
 
     if (props.volume) {
       let volScale = (props.volume * strMod) / 8;

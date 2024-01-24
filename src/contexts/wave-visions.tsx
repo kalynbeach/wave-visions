@@ -23,8 +23,8 @@ type WaveVisionsState = {
 const initialState: WaveVisionsState = {
   visions: initVisions(),
   activeVision: VisionRegistry.Sphere,
-  showAudioInfo: false,
-  showVisionControls: false,
+  showAudioInfo: true,
+  showVisionControls: true,
 };
 
 const WaveVisionsContext = createContext<

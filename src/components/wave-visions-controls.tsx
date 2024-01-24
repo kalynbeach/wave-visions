@@ -10,48 +10,58 @@ export default function WaveVisionsControls() {
 
   return (
     <div className="flex-1 flex flex-row items-center justify-end gap-2">
-
       {/* AudioInfo Toggle */}
-      <Button
-        onClick={() => setWaveVisions(prevState => ({
-          ...prevState,
-          showAudioInfo: !prevState.showAudioInfo
-        }))}
-        className={cn(
-          "border rounded-sm hover:bg-neutral-800/30",
-          waveVisions.showAudioInfo ?
-            "bg-neutral-800/30 border-neutral-700 hover:border-neutral-700" :
-            "hover:border-[#1AE803]/50"
-        )}
-        size="icon"
-        variant="outline"
-        aria-label="Toggle Audio Info Button"
-      >
-        <InfoCircledIcon
-          className={`${waveVisions.showAudioInfo ? "text-[#1AE803]" : ""}`}
-        />
-      </Button>
+      <WaveVisionsControlToggleButton
+        controlName="showAudioInfo"
+        controlLabel="Toggle Audio Info Button"
+        controlIsVisible={waveVisions.showAudioInfo}
+        handler={(controlIsVisible) => setWaveVisions(prevState => ({ ...prevState, showAudioInfo: !controlIsVisible}))}
+      ></WaveVisionsControlToggleButton>
 
       {/* VisionControls Toggle */}
-      <Button
-        onClick={() => setWaveVisions(prevState => ({
-          ...prevState,
-          showVisionControls: !prevState.showVisionControls
-        }))}
-        className={cn(
-          "border rounded-sm hover:bg-neutral-800/30",
-          waveVisions.showVisionControls ?
-            "bg-neutral-800/30 border-neutral-700 hover:border-neutral-700" :
-            "hover:border-[#1AE803]/50"
-        )}
-        size="icon"
-        variant="outline"
-        aria-label="Toggle Vision Controls Button"
-      >
-        <MixerHorizontalIcon
-          className={`${waveVisions.showVisionControls ? "text-[#1AE803] transition" : ""}`}
-        />
-      </Button>
+      <WaveVisionsControlToggleButton
+        controlName="showVisionControls"
+        controlLabel="Toggle Vision Controls Button"
+        controlIsVisible={waveVisions.showVisionControls}
+        handler={(controlIsVisible) => setWaveVisions(prevState => ({ ...prevState, showVisionControls: !controlIsVisible}))}
+      ></WaveVisionsControlToggleButton>
     </div>
   );
 }
+
+function WaveVisionsControlToggleButton({
+  controlName,
+  controlLabel,
+  controlIsVisible,
+  handler,
+}: {
+  controlName: string;
+  controlLabel: string;
+  controlIsVisible: boolean;
+  handler: (controlIsVisible: boolean) => void;
+}) {
+  return (
+    <Button
+      onClick={() => handler(controlIsVisible)}
+      className={cn(
+        "group border rounded-sm transition border-neutral-800/70 hover:bg-neutral-900/30 hover:border-neutral-800",
+        controlIsVisible && "bg-neutral-900/50 border-neutral-800",
+      )}
+      size="icon"
+      variant="outline"
+      aria-label={controlLabel}
+    >
+      {controlName === "showAudioInfo" && (
+        <InfoCircledIcon
+          className={cn("transition", controlIsVisible && "text-[#1AE803]")}
+        />
+      )}
+      {controlName === "showVisionControls" && (
+        <MixerHorizontalIcon
+          className={cn("transition", controlIsVisible && "text-[#1AE803]")}
+        />
+      )}
+    </Button>
+  );
+}
+
