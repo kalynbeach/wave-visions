@@ -15,32 +15,21 @@ export default function Sphere(props: Props) {
   
   useFrame((state, delta) => {
     ref.current.rotation.x = 1.57;
-    ref.current.rotation.y -= Math.max(vision.agility, 1) * 0.0128;
-    // ref.current.rotation.y -= 0.00128 * Math.max(vision.agility, 1);
-    ref.current.rotation.z += -(vision.intellect / 512);
+    ref.current.rotation.y -= 0.00128 * Math.max(vision.agility, 1);
+    ref.current.rotation.z -= 0.0064 * vision.intellect;
+    // ref.current.rotation.z -= -(vision.intellect / 512);
+
+    let strMod = Math.max(vision.strength * 0.064, 0.064);
 
     if (props.volume) {
-      let strMod = vision.strength * 0.064 + 1;
-      console.log("strMod: ", strMod);
-      // let volScale = Math.max((props.volume * (strMod)), 1);
-      // let volScale = (Math.max((props.volume * 0.064), 1)) * strMod;
-      // let volScale = Math.max(Math.sqrt(props.volume) / 2 * strMod, 1);
-      let volScale = (Math.sqrt(props.volume) / 4) * strMod + 1;
-      console.log("volScale: ", volScale);
-      ref.current.scale.x = volScale;
-      ref.current.scale.y = volScale;
-      ref.current.scale.z = volScale;
-      // const _scale = Math.max(props.volume * 0.050, 1) + (-(vision.strength / 10) + 1);
-      // ref.current.scale.x = _scale;
-      // ref.current.scale.y = _scale;
-      // ref.current.scale.z = _scale;
-      // ref.current.rotation.y -= 0.003;
-      // ref.current.rotation.y -= _scale * 0.003;
+      let volScale = (props.volume * strMod) / 8;
+      ref.current.scale.x = 1 + volScale;
+      ref.current.scale.y = 1 + volScale;
+      ref.current.scale.z = 1 + volScale;
     } else {
-      ref.current.scale.x = 1;
-      ref.current.scale.y = 1;
-      ref.current.scale.z = 1;
-      // ref.current.rotation.y -= 0.003;
+      ref.current.scale.x = 1 + strMod;
+      ref.current.scale.y = 1 + strMod;
+      ref.current.scale.z = 1 + strMod;
     }
   });
   
