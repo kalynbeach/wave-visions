@@ -3,7 +3,9 @@
 import * as THREE from "three";
 import React, { useRef, useState } from "react";
 import { useFrame, ThreeElements } from "@react-three/fiber";
-import { useVision } from "@/contexts/vision";
+import { useAtom } from "jotai";
+import { visionModifiersAtom } from "@/lib/store";
+
 
 type Props = ThreeElements["mesh"] & {
   volume?: number;
@@ -11,15 +13,15 @@ type Props = ThreeElements["mesh"] & {
 
 export default function Sphere(props: Props) {
   const ref = useRef<THREE.Mesh>(null!);
-  const [vision] = useVision();
+  const [visionModifiers] = useAtom(visionModifiersAtom);
   
   useFrame((state, delta) => {
     ref.current.rotation.x = 1.57;
-    ref.current.rotation.y -= 0.00128 * Math.max(vision.agility, 1);
-    ref.current.rotation.z -= 0.0064 * vision.intellect;
-    // ref.current.rotation.z -= -(vision.intellect / 512);
+    ref.current.rotation.y -= 0.00128 * Math.max(visionModifiers.agility, 1);
+    ref.current.rotation.z -= 0.0064 * visionModifiers.intellect;
+    // ref.current.rotation.z -= -(visionModifiers.intellect / 512);
 
-    let strMod = Math.max(vision.strength * 0.0064, 0.064);
+    let strMod = Math.max(visionModifiers.strength * 0.0064, 0.064);
 
     if (props.volume) {
       let volScale = (props.volume * strMod) / 8;

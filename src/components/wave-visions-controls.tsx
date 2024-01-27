@@ -1,29 +1,30 @@
 "use client";
 
-import { useWaveVisions } from "@/contexts/wave-visions";
-import { Button } from "@/components/ui/button";
-import { InfoCircledIcon, MixerHorizontalIcon } from "@radix-ui/react-icons";
+import { useAtom } from "jotai";
+import { waveVisionsControlsAtom } from "@/lib/store";
+import type { WaveVisionsControls } from "@/lib/definitions";
 import { cn } from "@/lib/utils";
+import { InfoCircledIcon, MixerHorizontalIcon } from "@radix-ui/react-icons";
+import { Button } from "@/components/ui/button";
 
 export default function WaveVisionsControls() {
-  const [waveVisions, setWaveVisions] = useWaveVisions();
-
+  const [controls, setControls] = useAtom(waveVisionsControlsAtom);
   return (
     <div className="flex-1 flex flex-row items-center justify-end gap-2">
       {/* AudioInfo Toggle */}
       <WaveVisionsControlToggleButton
         controlName="showAudioInfo"
         controlLabel="Toggle Audio Info Button"
-        controlIsVisible={waveVisions.showAudioInfo}
-        handler={(controlIsVisible) => setWaveVisions(prevState => ({ ...prevState, showAudioInfo: !controlIsVisible}))}
+        controlIsVisible={controls.showAudioInfo}
+        handler={() => setControls({ showAudioInfo: !controls.showAudioInfo })}
       ></WaveVisionsControlToggleButton>
 
       {/* VisionControls Toggle */}
       <WaveVisionsControlToggleButton
         controlName="showVisionControls"
         controlLabel="Toggle Vision Controls Button"
-        controlIsVisible={waveVisions.showVisionControls}
-        handler={(controlIsVisible) => setWaveVisions(prevState => ({ ...prevState, showVisionControls: !controlIsVisible}))}
+        controlIsVisible={controls.showVisionControls}
+        handler={() => setControls({ showVisionControls: !controls.showVisionControls })}
       ></WaveVisionsControlToggleButton>
     </div>
   );
@@ -38,11 +39,11 @@ function WaveVisionsControlToggleButton({
   controlName: string;
   controlLabel: string;
   controlIsVisible: boolean;
-  handler: (controlIsVisible: boolean) => void;
+  handler: (update: Partial<WaveVisionsControls>) => void;
 }) {
   return (
     <Button
-      onClick={() => handler(controlIsVisible)}
+      onClick={() => handler({[controlName]: !controlIsVisible})}
       className={cn(
         "group border rounded-sm transition border-neutral-800/70 hover:bg-neutral-900/30 hover:border-neutral-800",
         controlIsVisible && "bg-neutral-900/50 border-neutral-800",

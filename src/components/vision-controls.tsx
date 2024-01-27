@@ -1,15 +1,15 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useWaveVisions } from "@/contexts/wave-visions";
-import { useVision } from "@/contexts/vision";
-import { Button } from "@/components/ui/button";
+import { useAtom } from "jotai";
+import { waveVisionsControlsAtom, visionModifiersAtom } from "@/lib/store";
 import { MinusIcon, PlusIcon } from "@radix-ui/react-icons";
-import { Badge } from "./ui/badge";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 export default function VisionControls() {
-  const [waveVisions] = useWaveVisions();
-  const [vision, setVision] = useVision();
+  const [waveVisions] = useAtom(waveVisionsControlsAtom);
+  const [visionModifiers, setVisionModifiers] = useAtom(visionModifiersAtom);
   const [isMinimized, setIsMinimized] = useState(false);
   const [debouncedValue, setDebouncedValue] = useState<{ name: string, value: string } | null>(null);
   const [inputValue, setInputValue] = useState<{ name: string, value: string } | null>(null);
@@ -33,7 +33,7 @@ export default function VisionControls() {
 
   useEffect(() => {
     if (debouncedValue !== null) {
-      setVision(prevState => ({...prevState, [debouncedValue.name]: parseInt(debouncedValue.value) }));
+      setVisionModifiers({ [debouncedValue.name]: parseInt(debouncedValue.value) });
     }
   }, [debouncedValue]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -57,21 +57,21 @@ export default function VisionControls() {
         <div className="flex flex-row justify-between">
           <RangeVisionControl
             name="agility"
-            value={vision.agility}
+            value={visionModifiers.agility}
             handler={handleRangeInputChange}
           />
         </div>
         <div className="flex flex-row justify-between">
           <RangeVisionControl
             name="intellect"
-            value={vision.intellect}
+            value={visionModifiers.intellect}
             handler={handleRangeInputChange}
           />
         </div>
         <div className="flex flex-row justify-between">
           <RangeVisionControl
             name="strength"
-            value={vision.strength}
+            value={visionModifiers.strength}
             handler={handleRangeInputChange}
           />
         </div>

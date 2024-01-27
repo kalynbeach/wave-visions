@@ -33,14 +33,32 @@ export const AUDIBLE_SPECTRUM: AudibleSpectrum = {
   brilliance: { lower: 6000, upper: 20000 },
 };
 
-export type Vision = {
-  name: string;
-  description: string;
-  componentName: string;
+export type WaveVisions = {
+  visions: Vision[];
+  activeVision: Vision | null;
+  controls: WaveVisionsControls;
 };
 
-export enum VisionRegistry {
-  Boxes = 'Boxes',
-  Sphere = 'Sphere',
-  Oscilloscope = 'Oscilloscope',
+export type WaveVisionsControls = {
+  showVisionControls: boolean;
+  showAudioInfo: boolean;
 };
+
+export type WaveVisionsMediaStreams = {
+  audio: MediaStream | null;
+};
+
+export type Vision = {
+  name: VisionName;
+  description: string;
+  componentName: string;
+  modifiers: VisionModifiers;
+};
+
+export type VisionModifiers = {
+  agility: number;
+  intellect: number;
+  strength: number;
+};
+
+export type VisionName = "Sphere" | "Boxes" | "Oscilloscope";

@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useRef, useState } from "react";
-import { type Vision, VisionRegistry } from "@/lib/definitions";
+// import { type Vision, VisionRegistry } from "@/lib/definitions";
 
 type VisionState = {
   name: string;
@@ -11,7 +11,7 @@ type VisionState = {
 };
 
 const initialState: VisionState = {
-  name: VisionRegistry.Sphere,
+  name: "Sphere",
   agility: 0,
   intellect: 0,
   strength: 0,

@@ -15,7 +15,6 @@
   - activeAudioDevice: `MediaDevice | null`
   - *activeVideoDevice: `MediaDevice | null`*
 - **MediaStreams**
-  - allStreams: `MediaStream[]`
   - audioStream : `MediaStream | null`
   - *videoStream: `MediaStream | null`*
 - **AudioProcessor**

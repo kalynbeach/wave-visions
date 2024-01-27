@@ -1,7 +1,14 @@
 "use client";
 
-import { useMediaDevices } from "@/contexts/media-devices";
-import { useWaveVisions } from "@/contexts/wave-visions";
+import { useEffect } from "react";
+import { useAtom } from "jotai";
+import {
+  visionsAtom,
+  activeVisionAtom,
+  mediaDevicesAtom,
+  audioDevicesAtom,
+  activeAudioDeviceAtom,
+} from "@/lib/store";
 import {
   Menubar,
   MenubarCheckboxItem,
@@ -19,20 +26,39 @@ import {
 } from "@/components/ui/menubar";
 
 export default function HeaderMenubar() {
-  const [mediaDevices, setMediaDevices] = useMediaDevices();
-  const [waveVisions, setWaveVisions] = useWaveVisions();
+  const [visions] = useAtom(visionsAtom);
+  const [activeVision, setActiveVision] = useAtom(activeVisionAtom);
+  const [mediaDevices, setMediaDevices] = useAtom(mediaDevicesAtom);
+  const [audioDevices] = useAtom(audioDevicesAtom);
+  const [activeAudioDevice, setActiveAudioDevice] = useAtom(activeAudioDeviceAtom);
 
   const handleDeviceChange = (value: string) => {
-    if (!mediaDevices.devices) return;
-    const device = mediaDevices.devices.find((device) => device.label === value);
+    if (!mediaDevices) return;
+    const device = mediaDevices.find((device) => device.label === value);
     if (device) {
-      setMediaDevices(prevState => ({ ...prevState, audioDevice: device }));
+      setActiveAudioDevice(device);
     }
   };
 
   const handleVisionChange = (value: string) => {
-    setWaveVisions(prevState => ({ ...prevState, activeVision: value }));
+    const selectedVision = visions.find((vision) => vision.name === value);
+    selectedVision && setActiveVision(selectedVision);
   };
+
+  // Initialize media devices
+  useEffect(() => {
+    async function getMediaDevices() {
+      await navigator.mediaDevices.getUserMedia({ audio: true });
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      setMediaDevices(devices);
+    }
+    getMediaDevices();
+    return () => {};
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    setActiveAudioDevice(audioDevices[0]);
+  }, [audioDevices]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return ( 
     <Menubar className="w-fit rounded-sm">
@@ -55,9 +81,9 @@ export default function HeaderMenubar() {
             Audio Devices
           </MenubarItem>
           <MenubarSeparator />
-          {mediaDevices.devices && mediaDevices.audioDevice && (
-            <MenubarRadioGroup value={mediaDevices.audioDevice.label} onValueChange={handleDeviceChange}>
-              {mediaDevices.devices.map(device => (
+          {audioDevices.length > 0 && activeAudioDevice && (
+            <MenubarRadioGroup value={activeAudioDevice.label} onValueChange={handleDeviceChange}>
+              {audioDevices.map(device => (
                 <MenubarRadioItem key={device.label} value={device.label} className="rounded-sm">
                   {device.label || 'Unknown Device'}
                 </MenubarRadioItem>
@@ -69,8 +95,8 @@ export default function HeaderMenubar() {
       <MenubarMenu>
         <MenubarTrigger className="rounded-sm">Visions</MenubarTrigger>
         <MenubarContent className="rounded-sm">
-          <MenubarRadioGroup value={waveVisions.activeVision ?? undefined} onValueChange={handleVisionChange}>
-            {waveVisions.visions && waveVisions.visions.map(vision => (
+          <MenubarRadioGroup value={activeVision?.name ?? undefined} onValueChange={handleVisionChange}>
+            {visions && visions.map(vision => (
               <MenubarRadioItem key={vision.name} value={vision.name} className="rounded-sm">
                 {vision.name}
               </MenubarRadioItem>

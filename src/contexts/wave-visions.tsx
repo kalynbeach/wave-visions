@@ -1,16 +1,23 @@
 "use client";
 
 import { createContext, useContext, useEffect, useRef, useState } from "react";
-import { type Vision, VisionRegistry } from "@/lib/definitions";
+import { type Vision } from "@/lib/definitions";
 
 function initVisions(): Vision[] {
   // temp process
-  const visionNames = Object.values(VisionRegistry);
-  return visionNames.map(visionName => ({
-    name: visionName,
-    description: visionName, // temp
-    componentName: visionName, // temp
-  }));
+  const visions: Vision[] = [
+    {
+      name: "Sphere",
+      description: "Sphere", // temp
+      componentName: "Sphere", // temp
+      modifiers: {
+        agility: 0,
+        intellect: 0,
+        strength: 0,
+      }
+    }
+  ];
+  return visions;
 }
 
 type WaveVisionsState = {
@@ -22,7 +29,7 @@ type WaveVisionsState = {
 
 const initialState: WaveVisionsState = {
   visions: initVisions(),
-  activeVision: VisionRegistry.Sphere,
+  activeVision: "Sphere",
   showAudioInfo: true,
   showVisionControls: true,
 };

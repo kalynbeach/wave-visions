@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { useMediaDevices } from "@/contexts/media-devices";
+import { useAtom } from "jotai";
 
 type AudioStreamState = MediaStream | null;
 

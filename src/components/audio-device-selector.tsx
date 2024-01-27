@@ -1,6 +1,7 @@
 "use client";
 
-import { useMediaDevices } from "@/contexts/media-devices";
+import { useAtom } from "jotai";
+import { audioDevicesAtom, activeAudioDeviceAtom } from "@/lib/store";
 import {
   Select,
   SelectContent,
@@ -12,26 +13,28 @@ import {
 } from "@/components/ui/select";
 
 export default function AudioDeviceSelector() {
-  const [mediaDevices, setMediaDevices] = useMediaDevices();
+  const [audioDevices] = useAtom(audioDevicesAtom);
+  const [activeAudioDevice, setActiveAudioDevice] = useAtom(activeAudioDeviceAtom);
 
   const handleDeviceChange = (value: string) => {
-    if (!mediaDevices.devices) return;
-    const device = mediaDevices.devices.find((device) => device.label === value);
+    if (audioDevices.length === 0) return;
+    const device = audioDevices.find((device) => device.label === value);
     if (device) {
       console.log(`[AudioDeviceSelector handleDeviceChange] changing device: `, device);
-      setMediaDevices(prevState => ({ ...prevState, audioDevice: device }));
+      // setMediaDevices(prevState => ({ ...prevState, audioDevice: device }));
+      setActiveAudioDevice(device);
     }
   };
 
   return (
-    <Select onValueChange={handleDeviceChange} value={mediaDevices.audioDevice?.label}>
+    <Select onValueChange={handleDeviceChange} value={activeAudioDevice?.label}>
       <SelectTrigger className="md:min-w-[256px] ml-auto">
         <SelectValue placeholder="Select an audio device" />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
           <SelectLabel>Audio Devices</SelectLabel>
-          {mediaDevices.devices && mediaDevices.devices.filter((device) => device.kind === "audioinput").map(device => (
+          {audioDevices.map(device => (
             <SelectItem key={device.label} value={device.label}>
               {device.label || 'Unknown Device'}
             </SelectItem>
